@@ -1,7 +1,7 @@
 # codesafe.sh Marketing Site — Design Spec
 
 **Date:** 2026-07-06  
-**Status:** Approved for implementation  
+**Status:** Approved for implementation (database section revised per Postgres best practices)  
 **Source mockups:** `public/landingpage-design/Codesafe Landing.dc.html`, `Blog.dc.html`, `Imprint.dc.html`
 
 ## Summary
@@ -36,7 +36,7 @@ Replace the Astro blog starter with a marketing site for codesafe.sh: landing pa
 | Interactivity | React islands (`@astrojs/react`) |
 | Fonts | `@fontsource/*` packages (build-time bundle, zero runtime third-party requests) |
 | Database | PostgreSQL 16 |
-| DB access | Raw `pg` or lightweight Drizzle ORM (minimal schema) |
+| DB access | Raw `pg` with singleton connection pool (minimal schema; no ORM) |
 | Deployment | Coolify + `@astrojs/node` standalone |
 | Content | Astro content collection (Markdown) |
 
@@ -217,13 +217,19 @@ src/
 │       ├── waitlist.ts
 │       └── subscribe.ts
 ├── lib/
-│   └── db.ts                      # pool, query helpers
+│   └── db.ts                      # singleton pool, insert helpers
 └── styles/
     └── global.css
 
 db/
 └── migrations/
-    └── 001_subscribers.sql
+    ├── 001_schema_migrations.sql  # migration tracking table
+    ├── 002_subscribers.sql        # table, indexes, constraints
+    └── 003_roles.sql              # least-privilege roles + grants
+
+scripts/
+├── migrate.mjs                    # applies pending migrations
+└── export-subscribers.mjs         # cursor-paginated CSV export (readonly role)
 
 docker-compose.yml                 # local Postgres only
 .env.example
@@ -321,34 +327,160 @@ Use `client:visible` for below-fold islands to reduce initial JS.
 
 ## Database
 
+Design follows [Supabase Postgres best practices](https://github.com/supabase/agent-skills): lowercase snake_case identifiers, `bigint identity` PKs, `timestamptz`, atomic upserts, composite indexes aligned to query patterns, least-privilege roles, and a singleton app connection pool.
+
+### Design review (vs original spec)
+
+| Area | Original | Updated | Rule |
+|------|----------|---------|------|
+| Primary key | `SERIAL` | `bigint GENERATED ALWAYS AS IDENTITY` | `schema-primary-keys` |
+| Email uniqueness | raw `TEXT`, app-only validation | lowercase enforced at DB + app | `schema-data-types`, `schema-constraints` |
+| Indexes | single-column `(type)` | composite `(type, created_at DESC)` | `query-composite-indexes` |
+| Redundant index | `(type)` alone | removed — covered by composite | `query-missing-indexes` |
+| Upsert | `ON CONFLICT DO NOTHING` | unchanged (correct) | `data-upsert` |
+| Connections | unspecified pool | singleton `pg.Pool`, capped size | `conn-pooling`, `conn-limits` |
+| DB user | single `codesafe` superuser | separate migrate / app / readonly roles | `security-privileges` |
+| Migrations | one file, `IF NOT EXISTS` only | tracked in `schema_migrations`, named constraints | `schema-constraints` |
+| Export | full-table SELECT | cursor pagination by `id` | `data-pagination` |
+| Transactions | implicit | single-statement INSERT only | `lock-short-transactions` |
+
+RLS, partitioning, and partial indexes are intentionally omitted — the app connects with a single service role and the table is tiny (form submissions only).
+
 ### Schema
 
-```sql
--- db/migrations/001_subscribers.sql
-CREATE TABLE IF NOT EXISTS subscribers (
-  id         SERIAL PRIMARY KEY,
-  email      TEXT NOT NULL,
-  type       TEXT NOT NULL CHECK (type IN ('waitlist', 'changelog')),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE (email, type)
-);
+All identifiers are unquoted lowercase snake_case (`schema-lowercase-identifiers`).
 
-CREATE INDEX idx_subscribers_type ON subscribers (type);
+```sql
+-- db/migrations/001_schema_migrations.sql
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  version     text PRIMARY KEY,
+  applied_at  timestamptz NOT NULL DEFAULT now()
+);
 ```
 
-No IP address stored in v1. Optional `ip_hash` column can be added later if rate limiting needs it.
+```sql
+-- db/migrations/002_subscribers.sql
+CREATE TABLE IF NOT EXISTS subscribers (
+  id          bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email       text NOT NULL,
+  type        text NOT NULL,
+  created_at  timestamptz NOT NULL DEFAULT now(),
+
+  CONSTRAINT subscribers_email_lowercase_check
+    CHECK (email = lower(email)),
+
+  CONSTRAINT subscribers_type_check
+    CHECK (type IN ('waitlist', 'changelog')),
+
+  CONSTRAINT subscribers_email_type_key
+    UNIQUE (email, type)
+);
+
+-- Export queries: WHERE type = $1 ORDER BY created_at DESC
+-- Equality column first, range/sort column second (query-composite-indexes)
+CREATE INDEX IF NOT EXISTS idx_subscribers_type_created_at
+  ON subscribers (type, created_at DESC);
+```
+
+No IP address stored in v1. Optional `ip_hash text` column can be added in a follow-up migration if rate limiting needs it.
+
+**Email normalization:** API routes trim whitespace and lowercase before INSERT. The `subscribers_email_lowercase_check` constraint is a safety net so `user@x.com` and `User@X.com` cannot coexist.
+
+**Why not `citext`?** Avoids an extension dependency on Coolify-hosted Postgres. Lowercase normalization achieves the same uniqueness guarantee with zero extra setup.
+
+### Roles and privileges
+
+Migrations run as the database owner (Coolify default superuser or `codesafe` owner). The running app and export script use dedicated roles with minimal grants (`security-privileges`).
+
+```sql
+-- db/migrations/003_roles.sql
+-- Revoke broad defaults from PUBLIC
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC;
+
+-- App role: INSERT-only on subscribers (no SELECT/UPDATE/DELETE)
+CREATE ROLE codesafe_app NOLOGIN;
+GRANT USAGE ON SCHEMA public TO codesafe_app;
+GRANT INSERT ON subscribers TO codesafe_app;
+GRANT USAGE, SELECT ON SEQUENCE subscribers_id_seq TO codesafe_app;
+
+-- Readonly role: SELECT for operator export script
+CREATE ROLE codesafe_readonly NOLOGIN;
+GRANT USAGE ON SCHEMA public TO codesafe_readonly;
+GRANT SELECT ON subscribers TO codesafe_readonly;
+
+-- Login roles (passwords set via Coolify / docker env, not in Git)
+-- CREATE ROLE codesafe_app_login LOGIN PASSWORD '…' IN ROLE codesafe_app;
+-- CREATE ROLE codesafe_readonly_login LOGIN PASSWORD '…' IN ROLE codesafe_readonly;
+```
+
+Local dev may use the `codesafe` superuser from docker-compose for simplicity; production must use `codesafe_app_login` for the app and `codesafe_readonly_login` for exports.
+
+### Connection pool (`src/lib/db.ts`)
+
+Postgres connections are expensive (1–3 MB RAM each). The app must reuse a **singleton pool**, never open a connection per request (`conn-pooling`).
+
+```ts
+import pg from 'pg';
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: Number(process.env.DB_POOL_MAX ?? 10),       // conn-limits: cap per Node instance
+  idleTimeoutMillis: 30_000,                          // conn-idle-timeout
+  connectionTimeoutMillis: 5_000,
+  // pg uses unnamed prepared statements by default — safe with direct connections.
+  // If routing through PgBouncer transaction mode later, set prepareThreshold: 0
+  // (conn-prepared-statements).
+});
+
+export async function insertSubscriber(email: string, type: 'waitlist' | 'changelog') {
+  const normalized = email.trim().toLowerCase();
+  await pool.query(
+    `INSERT INTO subscribers (email, type)
+     VALUES ($1, $2)
+     ON CONFLICT (email, type) DO NOTHING`,
+    [normalized, type],
+  );
+}
+```
+
+**Scaling note:** If Coolify runs multiple app replicas, set `DB_POOL_MAX` so `(replicas × DB_POOL_MAX) < postgres max_connections − reserved`. Consider PgBouncer in transaction mode if connection count becomes a bottleneck.
+
+### Migration runner (`scripts/migrate.mjs`)
+
+- Connects with `DATABASE_MIGRATE_URL` (owner) or falls back to `DATABASE_URL` in local dev.
+- Reads `db/migrations/*.sql` in lexical order.
+- Skips files whose basename already exists in `schema_migrations`.
+- Runs each pending file in a transaction; records version on success.
+- Uses named constraints in SQL so re-runs fail safely at the constraint level rather than silently duplicating objects.
 
 ### API routes
 
-Both routes:
+Both `POST /api/waitlist` and `POST /api/subscribe`:
 
 1. Parse JSON body `{ email: string }`
-2. Validate format (basic `@` check + max length)
-3. `INSERT … ON CONFLICT (email, type) DO NOTHING`
-4. Return `{ ok: true }` on success **and** on duplicate (idempotent UX — user sees subscribed either way)
-5. Return `{ error: string }` with 400 on invalid email, 500 on DB failure
+2. Validate in app: trim, lowercase, basic `@` check, max length 320 chars
+3. Single-statement INSERT via `insertSubscriber()` — no explicit transaction wrapper, no external calls inside a transaction (`lock-short-transactions`)
+4. `INSERT … ON CONFLICT (email, type) DO NOTHING` — atomic, no SELECT-then-INSERT race (`data-upsert`)
+5. Return `{ ok: true }` on success **and** on duplicate (idempotent UX)
+6. Return `{ error: string }` with 400 on invalid email, 503 if pool unavailable, 500 on unexpected DB error
 
 No outbound HTTP calls. No Resend. No webhooks.
+
+### Export script (`scripts/export-subscribers.mjs`)
+
+Operator-only CSV export using `DATABASE_READONLY_URL`:
+
+```sql
+-- Cursor pagination (data-pagination) — O(1) per batch regardless of table size
+SELECT id, email, type, created_at
+FROM subscribers
+WHERE type = $1 AND id > $2
+ORDER BY id
+LIMIT 1000;
+```
+
+Loop with `$2 = last_id` until no rows. Never use `OFFSET` for large exports.
 
 ### GDPR notes for Privacy page
 
@@ -404,13 +536,21 @@ Minimal Imprint-style page (no separate mockup):
 | Build command | `npm run build` (Nixpacks default) |
 | Start command | `npm start` or `node ./dist/server/entry.mjs` |
 | Exposed port | `4321` |
-| Environment | `DATABASE_URL`, `HOST=0.0.0.0`, `PORT=4321` |
+| Environment | `DATABASE_URL` (app role), `DATABASE_MIGRATE_URL` (owner, migrations only), `DATABASE_READONLY_URL` (export only), `DB_POOL_MAX=10`, `HOST=0.0.0.0`, `PORT=4321` |
 
-Run migrations before or on server start (e.g. Coolify pre-deploy command: `npm run db:migrate`).
+Run migrations before server start (Coolify pre-deploy command: `npm run db:migrate`). Migrations require owner credentials (`DATABASE_MIGRATE_URL`); the running app uses `DATABASE_URL` with the insert-only role.
 
 ### PostgreSQL on Coolify
 
-Provision PostgreSQL as a Coolify database service. Link `DATABASE_URL` to the Astro application. Use separate databases (or separate instances) for production vs staging if staging exists.
+Provision PostgreSQL 16 as a Coolify database service. Create login roles per migration `003_roles.sql` and wire URLs:
+
+| Variable | Role | Used by |
+|----------|------|---------|
+| `DATABASE_MIGRATE_URL` | owner / migrate | pre-deploy `db:migrate` only |
+| `DATABASE_URL` | `codesafe_app_login` | running Astro server |
+| `DATABASE_READONLY_URL` | `codesafe_readonly_login` | manual export script |
+
+Use separate databases (or instances) for production vs staging. Enable SSL in connection strings for production (`?sslmode=require`).
 
 ---
 
@@ -435,12 +575,24 @@ volumes:
   pgdata:
 ```
 
+### `.env.example`
+
+```bash
+# Local dev — docker-compose superuser is fine for all three
+DATABASE_URL=postgresql://codesafe:codesafe@localhost:5432/codesafe_dev
+DATABASE_MIGRATE_URL=postgresql://codesafe:codesafe@localhost:5432/codesafe_dev
+DATABASE_READONLY_URL=postgresql://codesafe:codesafe@localhost:5432/codesafe_dev
+
+# Pool size per Node process (default 10)
+DB_POOL_MAX=10
+```
+
 ### Workflow
 
 ```bash
 docker compose up -d db
 npm run db:migrate
-cp .env.example .env.local   # DATABASE_URL=postgresql://codesafe:codesafe@localhost:5432/codesafe_dev
+cp .env.example .env.local
 astro dev
 ```
 
@@ -451,19 +603,21 @@ astro dev
 ### Export production subscribers (optional)
 
 ```bash
-DATABASE_URL=<prod-readonly-url> npm run db:export-subscribers > subscribers.csv
+DATABASE_READONLY_URL=<prod-readonly-url> npm run db:export-subscribers > subscribers.csv
 ```
 
-One-way export for operator use; not part of normal content workflow.
+Uses cursor pagination and the readonly role. One-way export for operator use; not part of normal content workflow.
 
 ---
 
 ## Security (v1)
 
 - `RESEND_API_KEY` and similar **not used**
-- API keys only in server env vars (`DATABASE_URL`)
-- Basic email validation; consider rate limiting middleware in follow-up
-- Optional: reject startup if dev mode detects production DB hostname
+- App connects with insert-only `codesafe_app` role — SQL injection cannot read or delete subscriber data
+- Migration and export credentials stored separately; never baked into the app runtime env on production
+- Basic email validation; rate limiting middleware deferred
+- Reject startup in dev if `DATABASE_URL` hostname matches production allowlist (optional guard)
+- Production Postgres connections use `sslmode=require`
 
 ---
 
@@ -474,7 +628,10 @@ One-way export for operator use; not part of normal content workflow.
 - [ ] Terminal animates and replays on click
 - [ ] FAQ accordion opens one at a time
 - [ ] Waitlist/subscribe forms persist to Postgres locally
-- [ ] Duplicate email handled gracefully
+- [ ] Duplicate email handled gracefully (including case variants: `User@X.com` vs `user@x.com`)
+- [ ] App role cannot SELECT from `subscribers` (verify with `\dp` or permission test)
+- [ ] Migrations are idempotent — re-running `db:migrate` skips applied versions
+- [ ] Export script paginates with cursor, not OFFSET
 - [ ] No network requests to Google Fonts or third-party APIs on page load
 - [ ] `astro build` succeeds; `npm start` serves production build
 - [ ] Migrations run cleanly on empty database
@@ -486,5 +643,5 @@ One-way export for operator use; not part of normal content workflow.
 
 - Real legal fields in `site.config.ts`
 - Final GitHub and docs URLs
-- Production `DATABASE_URL` in Coolify
+- Production DB URLs and role passwords in Coolify
 - Custom domain SSL on Coolify
