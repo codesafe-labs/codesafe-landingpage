@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Changelog · codesafe.sh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #FAFAF7; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<div style="font-family: 'Instrument Sans', Helvetica, sans-serif; color: #18201B; background: #FAFAF7; min-height: 100vh; -webkit-font-smoothing: antialiased;">
+
+  <nav style="max-width: 880px; margin: 0 auto; padding: 22px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+    <a href="Codesafe Landing.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #18201B;">
+      <div style="width: 26px; height: 26px; border-radius: 7px; background: #10805A; display: grid; place-items: center; color: #FAFAF7; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600;">&gt;</div>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px; letter-spacing: -0.02em;">codesafe.sh</span>
+    </a>
+    <div style="display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 600;">
+      <span style="color: #10805A;">Changelog</span>
+      <a href="Codesafe Landing.dc.html" style="text-decoration: none; color: #4C5751;">← Back to home</a>
+    </div>
+  </nav>
+
+  <main data-screen-label="Changelog" style="max-width: 880px; margin: 0 auto; padding: 48px 32px 96px;">
+
+    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 560px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">CHANGELOG</span>
+      <h1 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 46px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.05;">What's new in codesafe</h1>
+      <p style="font-size: 16.5px; line-height: 1.6; color: #4C5751; margin: 0; text-wrap: pretty;">Every release, new rule, and fix. Building in the open, shipped from Austria.</p>
+    </div>
+
+    <!-- Timeline -->
+    <div style="margin-top: 56px; display: flex; flex-direction: column;">
+      <sc-for list="{{ posts }}" as="post" hint-placeholder-count="4">
+        <article style="display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 36px 0; border-top: 1px solid #E7EAE4;">
+          <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #78827B;">{{ post.date }}</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid {{ post.tagBorder }}; background: {{ post.tagBg }}; color: {{ post.tagColor }}; border-radius: 999px; padding: 4px 11px; font-size: 12px; font-weight: 700;">{{ post.tag }}</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9AA39C;">{{ post.version }}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.015em; margin: 0; line-height: 1.15;">{{ post.title }}</h2>
+            <p style="font-size: 15.5px; line-height: 1.65; color: #4C5751; margin: 0; text-wrap: pretty;">{{ post.body }}</p>
+            <ul style="margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; color: #33443B;">
+              <sc-for list="{{ post.items }}" as="item" hint-placeholder-count="3">
+                <li style="display: flex; gap: 10px; align-items: baseline;"><span style="color: #10805A; font-weight: 700; flex-shrink: 0;">›</span> <span>{{ item }}</span></li>
+              </sc-for>
+            </ul>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+
+    <!-- Subscribe -->
+    <div style="margin-top: 24px; border: 1px solid #CFE4D8; background: #EEF6F0; border-radius: 16px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <h3 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 21px; font-weight: 700; margin: 0;">Get release notes by email</h3>
+        <p style="font-size: 14.5px; color: #33443B; margin: 0;">One short email per release. No marketing.</p>
+      </div>
+      <sc-if value="{{ notSubscribed }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; gap: 10px;">
+          <input ref="{{ emailRef }}" type="email" placeholder="you@yourapp.com" style="border: 1px solid #CFE4D8; border-radius: 10px; padding: 12px 15px; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 14.5px; background: #FFFFFF; color: #18201B; outline: none; min-width: 220px;" style-focus="border-color: #10805A;">
+          <button onClick="{{ subscribe }}" style="background: #10805A; color: #FAFAF7; border: none; border-radius: 10px; padding: 12px 18px; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 14.5px; font-weight: 600; cursor: pointer;" style-hover="background: #0C6B4B;">Subscribe</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ subscribed }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: 10px; border: 1px solid #CFE4D8; background: #FFFFFF; color: #10664A; border-radius: 10px; padding: 12px 18px; font-size: 14.5px; font-weight: 600;">✓ Subscribed. See you next release.</div>
+      </sc-if>
+    </div>
+
+  </main>
+
+  <footer style="border-top: 1px solid #E7EAE4; background: #FFFFFF;">
+    <div style="max-width: 880px; margin: 0 auto; padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; font-size: 13px; color: #78827B; font-weight: 500;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13.5px; color: #18201B;">codesafe.sh</span>
+      <div style="display: flex; gap: 24px;">
+        <a href="Imprint.dc.html" style="color: inherit; text-decoration: none;">Imprint</a>
+        <span>© 2026 codesafe</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { subscribed: false };
+  emailRef = React.createRef();
+
+  tagStyles = {
+    Release:  { tagBg: "#EEF6F0", tagBorder: "#CFE4D8", tagColor: "#10664A" },
+    Rules:    { tagBg: "#FDF3EC", tagBorder: "#F0D9C8", tagColor: "#B4552D" },
+    Cloud:    { tagBg: "#EEF2FA", tagBorder: "#D3DEF0", tagColor: "#2A5FB8" },
+    Fix:      { tagBg: "#F6F8F4", tagBorder: "#E7EAE4", tagColor: "#4C5751" }
+  };
+
+  postsData = [
+    {
+      date: "Jul 2, 2026", version: "v0.4.0", tag: "Release",
+      title: "Fix PRs now re-scan themselves before opening",
+      body: "The biggest trust upgrade yet: every generated diff is scanned again before the pull request is created. If the fix does not fully close the finding, the PR is not opened.",
+      items: [
+        "Re-scan step added to codesafe fix, on by default",
+        "PR descriptions now include a before/after finding count",
+        "New exit code 3 for partially-fixed findings in CI"
+      ]
+    },
+    {
+      date: "Jun 18, 2026", version: "rules-2026.06", tag: "Rules",
+      title: "New rules: Supabase RLS and Next.js server actions",
+      body: "Two rule packs tuned for what AI codegen actually produces this summer.",
+      items: [
+        "Detects Supabase migrations that create tables without RLS policies",
+        "Flags Next.js server actions that skip auth checks",
+        "Fewer false positives on dangerouslySetInnerHTML with sanitized input"
+      ]
+    },
+    {
+      date: "Jun 5, 2026", version: "cloud", tag: "Cloud",
+      title: "Cloud waitlist opens: scan on every deploy",
+      body: "The managed version is taking its first users. Install the GitHub App, and codesafe re-scans on every push and opens fix PRs automatically. Same engine as the CLI, zero ops.",
+      items: [
+        "GitHub App setup in about 30 seconds",
+        "EU-hosted infrastructure, repos deleted after each scan",
+        "Waitlist invites go out weekly"
+      ]
+    },
+    {
+      date: "May 22, 2026", version: "v0.3.2", tag: "Fix",
+      title: "Faster scans on large monorepos",
+      body: "Scan time on repos over 2,000 files dropped by roughly 60% thanks to parallel file walking and smarter ignores.",
+      items: [
+        "node_modules, build output, and lockfiles skipped by default",
+        ".codesafeignore support",
+        "Progress output no longer flickers in CI logs"
+      ]
+    },
+    {
+      date: "May 8, 2026", version: "v0.3.0", tag: "Release",
+      title: "codesafe scan goes public",
+      body: "First public release of the CLI. One command, no dependencies, and a security score for your AI-built app.",
+      items: [
+        "npx codesafe scan with table output, report.md, and JSON",
+        "Zero runtime dependencies, Apache 2.0 licensed",
+        "OWASP-oriented checks: access control, secrets, injection, misconfig"
+      ]
+    }
+  ];
+
+  renderVals() {
+    return {
+      posts: this.postsData.map(p => ({ ...p, ...this.tagStyles[p.tag] })),
+      emailRef: this.emailRef,
+      subscribed: this.state.subscribed,
+      notSubscribed: !this.state.subscribed,
+      subscribe: () => {
+        const v = this.emailRef.current ? this.emailRef.current.value.trim() : "";
+        if (v.length > 3 && v.includes("@")) this.setState({ subscribed: true });
+        else if (this.emailRef.current) this.emailRef.current.focus();
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

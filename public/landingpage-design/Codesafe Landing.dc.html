@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>codesafe.sh · Ship without fear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #FAFAF7; }
+    * { box-sizing: border-box; }
+    @keyframes cs-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes cs-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</helmet>
+
+<div style="font-family: 'Instrument Sans', Helvetica, sans-serif; color: #18201B; background: #FAFAF7; min-height: 100vh; -webkit-font-smoothing: antialiased;">
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <nav data-screen-label="Nav" style="max-width: 1120px; margin: 0 auto; padding: 22px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="width: 26px; height: 26px; border-radius: 7px; background: #10805A; display: grid; place-items: center; color: #FAFAF7; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600;">&gt;</div>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px; letter-spacing: -0.02em;">codesafe.sh</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 28px; font-size: 14.5px; font-weight: 500; color: #4C5751;">
+      <a href="#how" style="color: inherit; text-decoration: none;">How it works</a>
+      <a href="#checks" style="color: inherit; text-decoration: none;">What it checks</a>
+      <a href="#pricing" style="color: inherit; text-decoration: none;">Pricing</a>
+      <a href="#faq" style="color: inherit; text-decoration: none;">FAQ</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <a href="#opensource" style="display: flex; align-items: center; gap: 7px; text-decoration: none; color: #18201B; font-size: 13.5px; font-weight: 600; border: 1px solid #DDE1DB; border-radius: 8px; padding: 7px 12px; background: #FFFFFF;">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="#18201B"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        Star on GitHub
+      </a>
+      <a href="#scan" style="text-decoration: none; color: #FAFAF7; background: #18201B; font-size: 13.5px; font-weight: 600; border-radius: 8px; padding: 8px 14px;">Free scan</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header data-screen-label="Hero" id="scan" style="max-width: 1120px; margin: 0 auto; padding: 64px 32px 88px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 24px; animation: cs-rise 0.6s ease both;">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid #CFE4D8; background: #EEF6F0; color: #10664A; border-radius: 999px; padding: 6px 13px; font-size: 13px; font-weight: 600;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #10805A;"></span>
+          Open-source security for AI-built apps
+        </div>
+        <div style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid #DDE1DB; background: #FFFFFF; color: #4C5751; border-radius: 999px; padding: 6px 13px; font-size: 13px; font-weight: 600;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #2A5FB8;"></span>
+          Made in the EU
+        </div>
+      </div>
+      <h1 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 62px; line-height: 1.02; font-weight: 700; letter-spacing: -0.025em; margin: 0; text-wrap: balance;">Ship without fear.</h1>
+      <p style="font-size: 19px; line-height: 1.55; color: #4C5751; margin: 0; max-width: 460px; text-wrap: pretty;">Your AI wrote the app. codesafe finds the security holes it left behind, then opens a <strong style="color: #18201B; font-weight: 600;">pull request that fixes them</strong>. Not a report. A fix you can merge.</p>
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <sc-if value="{{ isScanCta }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative; display: flex;">
+            <button onClick="{{ goToWaitlist }}" onMouseEnter="{{ hoverHero }}" onMouseLeave="{{ unhover }}" style="display: flex; align-items: center; gap: 12px; background: #18201B; color: #E8EFE9; border: none; border-radius: 10px; padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; cursor: pointer;" style-hover="background: #223028;">
+              <span style="color: #6FBF9A;">$</span> npx codesafe scan
+            </button>
+            <sc-if value="{{ heroHovered }}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #10805A; color: #FAFAF7; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 6px 14px; white-space: nowrap; pointer-events: none; box-shadow: 0 8px 20px -8px rgba(16, 128, 90, 0.5); animation: cs-rise 0.2s ease both;">Coming soon!</span>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isWaitlistCta }}" hint-placeholder-val="{{ false }}">
+          <a href="#waitlist" style="text-decoration: none; background: #18201B; color: #E8EFE9; border-radius: 10px; padding: 14px 22px; font-size: 15px; font-weight: 600;">Join the waitlist</a>
+        </sc-if>
+        <a href="#pr" style="text-decoration: none; color: #10664A; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px;">See a real fix PR <span aria-hidden="true">→</span></a>
+      </div>
+      <div style="display: flex; align-items: center; gap: 18px; font-size: 13px; color: #78827B; font-weight: 500;">
+        <span>Free scan &amp; score</span>
+        <span style="width: 3px; height: 3px; border-radius: 50%; background: #C4CBC4;"></span>
+        <span>Zero runtime dependencies</span>
+        <span style="width: 3px; height: 3px; border-radius: 50%; background: #C4CBC4;"></span>
+        <span>Apache 2.0 core</span>
+        <span style="width: 3px; height: 3px; border-radius: 50%; background: #C4CBC4;"></span>
+        <span>Built &amp; hosted in the EU</span>
+      </div>
+    </div>
+
+    <!-- Animated terminal -->
+    <div style="animation: cs-rise 0.6s 0.15s ease both;">
+      <div onClick="{{ replayTerminal }}" style="background: #101714; border-radius: 14px; border: 1px solid #223028; box-shadow: 0 24px 60px -24px rgba(16, 32, 24, 0.45); overflow: hidden; cursor: pointer;">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #1C2620;">
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #3A4A40;"></span>
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #3A4A40;"></span>
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: #3A4A40;"></span>
+          <span style="margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #5E6E64;">~/my-vibe-app</span>
+        </div>
+        <div style="padding: 18px 20px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.75; min-height: 336px; display: flex; flex-direction: column;">
+          <sc-for list="{{ termLines }}" as="line" hint-placeholder-count="4">
+            <div style="white-space: pre; display: flex;">
+              <sc-for list="{{ line.segs }}" as="seg" hint-placeholder-count="1">
+                <span style="color: {{ seg.c }}; white-space: pre;">{{ seg.t }}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="display: flex;"><span style="display: inline-block; width: 8px; height: 16px; background: #6FBF9A; animation: cs-blink 1s step-end infinite;"></span></div>
+        </div>
+      </div>
+      <p style="text-align: center; font-size: 12px; color: #9AA39C; margin: 12px 0 0; font-weight: 500;">Click terminal to replay</p>
+    </div>
+  </header>
+
+  <!-- ═══════════ HOW IT WORKS ═══════════ -->
+  <section data-screen-label="How it works" id="how" style="border-top: 1px solid #E7EAE4; background: #FFFFFF;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 88px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 560px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">HOW IT WORKS</span>
+        <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1;">From scan to merged fix in three steps</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;">
+        <div style="border: 1px solid #E7EAE4; border-radius: 14px; padding: 28px; background: #FAFAF7; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A;">01</span>
+          <h3 style="font-size: 19px; font-weight: 600; margin: 0;">Connect your repo</h3>
+          <p style="font-size: 15px; line-height: 1.6; color: #4C5751; margin: 0; text-wrap: pretty;">Install the GitHub app, or run <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: #EEF1EC; padding: 2px 6px; border-radius: 5px;">npx codesafe scan</code> locally. Nothing to configure.</p>
+        </div>
+        <div style="border: 1px solid #E7EAE4; border-radius: 14px; padding: 28px; background: #FAFAF7; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A;">02</span>
+          <h3 style="font-size: 19px; font-weight: 600; margin: 0;">Scan finds the real holes</h3>
+          <p style="font-size: 15px; line-height: 1.6; color: #4C5751; margin: 0; text-wrap: pretty;">Leaked keys, unprotected admin routes, missing auth, SQL injection: the mistakes AI codegen actually makes, explained in plain English.</p>
+        </div>
+        <div style="border: 1px solid #CFE4D8; border-radius: 14px; padding: 28px; background: #EEF6F0; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A;">03</span>
+          <h3 style="font-size: 19px; font-weight: 600; margin: 0;">Merge the fix PR</h3>
+          <p style="font-size: 15px; line-height: 1.6; color: #33443B; margin: 0; text-wrap: pretty;">codesafe writes a minimal diff, re-scans it, and opens a pull request. You review, merge, and get back to shipping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FIX-PR SHOWCASE ═══════════ -->
+  <section data-screen-label="Fix PR showcase" id="pr" style="background: #FFFFFF; border-top: 1px solid #E7EAE4;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 88px 32px; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">THE PRODUCT IS THE PR</span>
+        <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1; text-wrap: balance;">Other tools hand you a report. We hand you the fix.</h2>
+        <p style="font-size: 16.5px; line-height: 1.6; color: #4C5751; margin: 0; text-wrap: pretty;">Every finding comes as a minimal, reviewed diff with an explanation a non-security person can understand. If you can merge a pull request, you can secure your app.</p>
+        <ul style="margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px; color: #33443B;">
+          <li style="display: flex; gap: 10px; align-items: baseline;"><span style="color: #10805A; font-weight: 700;">✓</span> Minimal diffs, no drive-by refactors</li>
+          <li style="display: flex; gap: 10px; align-items: baseline;"><span style="color: #10805A; font-weight: 700;">✓</span> Every fix is re-scanned before the PR opens</li>
+          <li style="display: flex; gap: 10px; align-items: baseline;"><span style="color: #10805A; font-weight: 700;">✓</span> Plain-English "what could have happened" for each hole</li>
+        </ul>
+      </div>
+
+      <!-- PR card -->
+      <div style="border: 1px solid #DDE1DB; border-radius: 14px; background: #FFFFFF; box-shadow: 0 18px 48px -28px rgba(24, 32, 27, 0.35); overflow: hidden;">
+        <div style="padding: 18px 22px 14px; border-bottom: 1px solid #EBEEE8; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="display: inline-flex; align-items: center; gap: 6px; background: #EEF6F0; color: #10664A; border: 1px solid #CFE4D8; border-radius: 999px; padding: 4px 11px; font-size: 12.5px; font-weight: 600;">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="#10805A"><path d="M7.177 3.073 9.573.677A.25.25 0 0 1 10 .854v4.792a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm-2.25.75a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25ZM11 2.5h-1V4h1a1 1 0 0 1 1 1v5.628a2.251 2.251 0 1 0 1.5 0V5A2.5 2.5 0 0 0 11 2.5Zm1 10.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM3.75 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z"/></svg>
+              Open
+            </span>
+            <span style="font-size: 15px; font-weight: 600;">fix: require admin auth on /api/admin routes</span>
+            <span style="color: #78827B; font-size: 14px; font-weight: 500;">#12</span>
+          </div>
+          <div style="font-size: 13px; color: #78827B;"><strong style="color: #4C5751; font-weight: 600;">codesafe[bot]</strong> wants to merge 1 commit into <code style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; background: #EEF6F0; color: #10664A; padding: 1px 6px; border-radius: 5px;">main</code> from <code style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; background: #EEF6F0; color: #10664A; padding: 1px 6px; border-radius: 5px;">codesafe/fix-admin-auth</code></div>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.7;">
+          <div style="padding: 8px 22px; background: #F6F8F4; border-bottom: 1px solid #EBEEE8; color: #4C5751; font-weight: 600;">app/api/admin/route.ts</div>
+          <div style="padding: 12px 0 14px; overflow-x: auto;">
+            <div style="padding: 0 22px; color: #78827B; white-space: pre;">  export async function GET(req: Request) {</div>
+            <div style="padding: 0 22px; background: #EAF6EE; color: #116A44; white-space: pre;">+   const session = await auth();</div>
+            <div style="padding: 0 22px; background: #EAF6EE; color: #116A44; white-space: pre;">+   if (!session?.user?.isAdmin) {</div>
+            <div style="padding: 0 22px; background: #EAF6EE; color: #116A44; white-space: pre;">+     return new Response("Unauthorized", { status: 401 });</div>
+            <div style="padding: 0 22px; background: #EAF6EE; color: #116A44; white-space: pre;">+   }</div>
+            <div style="padding: 0 22px; color: #78827B; white-space: pre;">    const users = await db.query.users.findMany();</div>
+            <div style="padding: 0 22px; color: #78827B; white-space: pre;">    return Response.json(users);</div>
+          </div>
+        </div>
+        <div style="margin: 0 22px 20px; border: 1px solid #E7EAE4; border-radius: 10px; background: #FAFAF7; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-size: 12px; font-weight: 700; color: #10805A; letter-spacing: 0.05em;">WHY THIS MATTERS</span>
+          <p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: #4C5751; text-wrap: pretty;">Anyone on the internet could list every user in your database, no login required. This adds an admin check before any data is returned.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WHAT IT CHECKS ═══════════ -->
+  <section data-screen-label="What it checks" id="checks" style="border-top: 1px solid #E7EAE4; background: #FAFAF7;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 88px 32px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 12px; max-width: 560px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">WHAT IT CHECKS</span>
+          <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1;">Built on OWASP, tuned for AI-generated code</h2>
+        </div>
+        <p style="font-size: 15px; color: #78827B; margin: 0; max-width: 320px; text-wrap: pretty;">Not a generic linter: rules target the specific patterns Claude, Cursor, and Lovable produce.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px;">
+        <sc-for list="{{ checks }}" as="check" hint-placeholder-count="6">
+          <div style="border: 1px solid #E7EAE4; border-radius: 14px; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: #9AA39C;">{{ check.owasp }}</span>
+            <h3 style="font-size: 17px; font-weight: 600; margin: 0;">{{ check.title }}</h3>
+            <p style="font-size: 14px; line-height: 1.6; color: #4C5751; margin: 0; text-wrap: pretty;">{{ check.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FREE SCAN / SCORE ═══════════ -->
+  <section data-screen-label="Free scan score" style="border-top: 1px solid #E7EAE4; background: #FFFFFF;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 88px 32px; display: grid; grid-template-columns: 1fr 0.9fr; gap: 64px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">FREE SCAN</span>
+        <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1; text-wrap: balance;">Get your security score in 60 seconds</h2>
+        <p style="font-size: 16.5px; line-height: 1.6; color: #4C5751; margin: 0; text-wrap: pretty;">Run the free scan and find out where you stand before someone else does. No credit card, no signup for the CLI. The score is yours to share or fix.</p>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <div style="position: relative; display: flex;">
+            <button onClick="{{ goToWaitlist }}" onMouseEnter="{{ hoverScan }}" onMouseLeave="{{ unhover }}" style="display: flex; align-items: center; gap: 10px; background: #18201B; color: #E8EFE9; border: none; border-radius: 10px; padding: 13px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 500; cursor: pointer;" style-hover="background: #223028;"><span style="color: #6FBF9A;">$</span> npx codesafe scan</button>
+            <sc-if value="{{ scanHovered }}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #10805A; color: #FAFAF7; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 6px 14px; white-space: nowrap; pointer-events: none; box-shadow: 0 8px 20px -8px rgba(16, 128, 90, 0.5); animation: cs-rise 0.2s ease both;">Coming soon!</span>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <div style="border: 1px solid #E7EAE4; border-radius: 18px; background: #FAFAF7; padding: 36px 40px; display: flex; flex-direction: column; align-items: center; gap: 18px; box-shadow: 0 18px 48px -30px rgba(24, 32, 27, 0.3); min-width: 320px;">
+          <span style="font-size: 13px; font-weight: 600; color: #78827B; letter-spacing: 0.04em;">SECURITY SCORE</span>
+          <div style="width: 120px; height: 120px; border-radius: 50%; border: 6px solid #10805A; display: grid; place-items: center; background: #FFFFFF;">
+            <span style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 52px; font-weight: 800; color: #10805A;">A−</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; font-size: 13.5px; color: #4C5751;">
+            <div style="display: flex; justify-content: space-between; gap: 24px;"><span>Findings fixed</span><strong style="font-weight: 600;">7 of 8</strong></div>
+            <div style="display: flex; justify-content: space-between; gap: 24px;"><span>Last scan</span><strong style="font-weight: 600;">on deploy · 2h ago</strong></div>
+            <div style="display: flex; justify-content: space-between; gap: 24px;"><span>Score last week</span><strong style="font-weight: 600; color: #B4552D;">C</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ OPEN SOURCE / TRUST ═══════════ -->
+  <section data-screen-label="Open source" id="opensource" style="background: #14201A; color: #E8EFE9;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 88px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-width: 620px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #6FBF9A; letter-spacing: 0.06em;">OPEN SOURCE</span>
+        <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1; text-wrap: balance;">A security tool you can actually read</h2>
+        <p style="font-size: 16.5px; line-height: 1.6; color: #A9B8AE; margin: 0; text-wrap: pretty;">Trusting a black box with your codebase is exactly the problem we're solving. So there isn't one.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;">
+        <div style="border: 1px solid #29382F; border-radius: 14px; padding: 26px; display: flex; flex-direction: column; gap: 10px; background: #182620;">
+          <h3 style="font-size: 17px; font-weight: 600; margin: 0; color: #E8EFE9;">Apache 2.0 core</h3>
+          <p style="font-size: 14.5px; line-height: 1.6; color: #A9B8AE; margin: 0; text-wrap: pretty;">The scanner and fix engine are open source. Audit every rule, run it forever, self-host the whole thing.</p>
+        </div>
+        <div style="border: 1px solid #29382F; border-radius: 14px; padding: 26px; display: flex; flex-direction: column; gap: 10px; background: #182620;">
+          <h3 style="font-size: 17px; font-weight: 600; margin: 0; color: #E8EFE9;">Zero runtime dependencies</h3>
+          <p style="font-size: 14.5px; line-height: 1.6; color: #A9B8AE; margin: 0; text-wrap: pretty;">The CLI ships with no third-party packages. A security tool shouldn't be a supply-chain risk itself.</p>
+        </div>
+        <div style="border: 1px solid #29382F; border-radius: 14px; padding: 26px; display: flex; flex-direction: column; gap: 10px; background: #182620;">
+          <h3 style="font-size: 17px; font-weight: 600; margin: 0; color: #E8EFE9;">Your code stays yours</h3>
+          <p style="font-size: 14.5px; line-height: 1.6; color: #A9B8AE; margin: 0; text-wrap: pretty;">Run scans locally with the CLI, or use the cloud, where repos are cloned for the scan and deleted right after.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PRICING ═══════════ -->
+  <section data-screen-label="Pricing" id="pricing" style="border-top: 1px solid #E7EAE4; background: #FAFAF7;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 88px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">PRICING</span>
+        <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1;">Free forever. Pay only for hosting.</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; align-items: stretch;">
+        <sc-for list="{{ plans }}" as="plan" hint-placeholder-count="4">
+          <div style="border: 1px solid {{ plan.border }}; border-radius: 16px; background: {{ plan.bg }}; padding: 28px 24px; display: flex; flex-direction: column; gap: 16px; position: relative;">
+            <sc-if value="{{ plan.featured }}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; top: -12px; left: 24px; background: #10805A; color: #FAFAF7; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; border-radius: 999px; padding: 4px 12px;">MOST POPULAR</span>
+            </sc-if>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <h3 style="font-size: 16px; font-weight: 600; margin: 0;">{{ plan.name }}</h3>
+              <div style="display: flex; align-items: baseline; gap: 5px;">
+                <span style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -0.02em;">{{ plan.price }}</span>
+                <span style="font-size: 13.5px; color: #78827B; font-weight: 500;">{{ plan.per }}</span>
+              </div>
+              <p style="font-size: 13.5px; color: #78827B; margin: 0; line-height: 1.5;">{{ plan.tagline }}</p>
+            </div>
+            <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; font-size: 13.5px; color: #33443B; flex: 1;">
+              <sc-for list="{{ plan.features }}" as="feat" hint-placeholder-count="3">
+                <li style="display: flex; gap: 8px; align-items: baseline;"><span style="color: #10805A; font-weight: 700;">✓</span> {{ feat }}</li>
+              </sc-for>
+            </ul>
+            <a href="#waitlist" style="text-decoration: none; text-align: center; border-radius: 9px; padding: 11px 14px; font-size: 14px; font-weight: 600; background: {{ plan.ctaBg }}; color: {{ plan.ctaColor }}; border: 1px solid {{ plan.ctaBorder }};">{{ plan.cta }}</a>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- No artificial limitations -->
+      <div style="margin-top: 56px; border: 1px solid #CFE4D8; background: #EEF6F0; border-radius: 18px; padding: 40px; display: flex; flex-direction: column; gap: 28px;">
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center;">
+          <h3 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin: 0; color: #18201B;">No artificial limitations.</h3>
+          <p style="font-size: 16px; line-height: 1.6; color: #33443B; margin: 0; max-width: 480px; text-wrap: pretty;">The self-hosted version has every feature. You only pay if you want us to host it.</p>
+        </div>
+        <div style="border: 1px solid #DDE8DE; border-radius: 12px; background: #FFFFFF; overflow: hidden; max-width: 720px; width: 100%; margin: 0 auto;">
+          <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; padding: 13px 24px; background: #F6F8F4; border-bottom: 1px solid #EBEEE8; font-size: 13px; font-weight: 700; color: #4C5751;">
+            <span></span>
+            <span>Self-Hosted</span>
+            <span>Cloud</span>
+          </div>
+          <sc-for list="{{ compareRows }}" as="row" hint-placeholder-count="8">
+            <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; padding: 12px 24px; font-size: 14px; border-bottom: 1px solid #F0F2EC; align-items: baseline;">
+              <span style="font-weight: 600; color: #18201B;">{{ row.label }}</span>
+              <span style="color: #33443B;">{{ row.self }}</span>
+              <span style="color: #33443B;">{{ row.cloud }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FAQ ═══════════ -->
+  <section data-screen-label="FAQ" id="faq" style="border-top: 1px solid #E7EAE4; background: #FFFFFF;">
+    <div style="max-width: 760px; margin: 0 auto; padding: 88px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #10805A; letter-spacing: 0.06em;">FAQ</span>
+        <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1;">Questions, answered honestly</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 44px;">
+        <sc-for list="{{ faqs }}" as="faq" hint-placeholder-count="5">
+          <div style="border: 1px solid #E7EAE4; border-radius: 12px; background: #FAFAF7; overflow: hidden;">
+            <button onClick="{{ faq.toggle }}" style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: none; padding: 18px 22px; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 16px; font-weight: 600; color: #18201B; cursor: pointer; text-align: left;">
+              {{ faq.q }}
+              <span style="font-family: 'IBM Plex Mono', monospace; color: #10805A; font-size: 16px; flex-shrink: 0;">{{ faq.marker }}</span>
+            </button>
+            <sc-if value="{{ faq.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin: 0; padding: 0 22px 20px; font-size: 15px; line-height: 1.65; color: #4C5751; text-wrap: pretty;">{{ faq.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WAITLIST / FOOTER CTA ═══════════ -->
+  <section data-screen-label="Waitlist" id="waitlist" style="border-top: 1px solid #E7EAE4; background: #FAFAF7;">
+    <div style="max-width: 680px; margin: 0 auto; padding: 96px 32px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center;">
+      <h2 style="font-family: 'Bricolage Grotesque', Helvetica, sans-serif; font-size: 44px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.05; text-wrap: balance;">Your app is live. Is it safe?</h2>
+      <p style="font-size: 16.5px; line-height: 1.6; color: #4C5751; margin: 0; max-width: 460px; text-wrap: pretty;">Cloud scans and auto-PRs are rolling out to the waitlist first. The CLI is free today.</p>
+      <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; gap: 10px; width: 100%; max-width: 440px; margin-top: 8px;">
+          <input ref="{{ emailRef }}" type="email" placeholder="you@yourapp.com" style="flex: 1; border: 1px solid #DDE1DB; border-radius: 10px; padding: 13px 16px; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 15px; background: #FFFFFF; color: #18201B; outline: none;" style-focus="border-color: #10805A;">
+          <button onClick="{{ joinWaitlist }}" style="background: #10805A; color: #FAFAF7; border: none; border-radius: 10px; padding: 13px 20px; font-family: 'Instrument Sans', Helvetica, sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #0C6B4B;">Join waitlist</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ joined }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: 10px; border: 1px solid #CFE4D8; background: #EEF6F0; color: #10664A; border-radius: 10px; padding: 13px 20px; font-size: 15px; font-weight: 600; margin-top: 8px;">✓ You're on the list. We'll be in touch.</div>
+      </sc-if>
+      <span style="font-size: 12.5px; color: #9AA39C;">No spam. One email when your invite is ready.</span>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="border-top: 1px solid #E7EAE4; background: #FFFFFF;">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 9px;">
+        <div style="width: 20px; height: 20px; border-radius: 6px; background: #10805A; display: grid; place-items: center; color: #FAFAF7; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;">&gt;</div>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13.5px;">codesafe.sh</span>
+        <span style="font-size: 12.5px; color: #9AA39C; font-weight: 500; margin-left: 8px;">Made in Austria</span>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 13px; color: #78827B; font-weight: 500;">
+        <a href="#opensource" style="color: inherit; text-decoration: none;">GitHub</a>
+        <a href="#checks" style="color: inherit; text-decoration: none;">Docs</a>
+        <a href="#pricing" style="color: inherit; text-decoration: none;">Pricing</a>
+        <a href="Imprint.dc.html" style="color: inherit; text-decoration: none;">Imprint</a>
+        <a href="Imprint.dc.html" style="color: inherit; text-decoration: none;">Privacy</a>
+        <span>© 2026 codesafe</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ctaMode&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;Run the CLI&quot;, &quot;Waitlist&quot;], &quot;default&quot;: &quot;Run the CLI&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { shown: 0, copied: false, joined: false, openFaq: 0, hovered: null };
+
+  emailRef = React.createRef();
+  timer = null;
+
+  fullLines = [
+    [{ t: "$ ", c: "#5E6E64" }, { t: "npx codesafe scan .", c: "#E8EFE9" }],
+    [{ t: "▸ scanning 214 files…", c: "#8A968E" }],
+    [{ t: "", c: "#8A968E" }],
+    [{ t: "✗ HIGH  ", c: "#E4785A" }, { t: "hardcoded Stripe secret", c: "#E8EFE9" }, { t: "      src/lib/stripe.ts:4", c: "#5E6E64" }],
+    [{ t: "✗ HIGH  ", c: "#E4785A" }, { t: "/api/admin has no auth check", c: "#E8EFE9" }, { t: " app/api/admin/route.ts", c: "#5E6E64" }],
+    [{ t: "✗ MED   ", c: "#E0B45C" }, { t: "SQL built from template string", c: "#E8EFE9" }, { t: " src/db/queries.ts:31", c: "#5E6E64" }],
+    [{ t: "", c: "#8A968E" }],
+    [{ t: "✓ scan complete", c: "#6FBF9A" }, { t: ": 3 findings · score ", c: "#8A968E" }, { t: "C−", c: "#E4785A" }],
+    [{ t: "", c: "#8A968E" }],
+    [{ t: "$ ", c: "#5E6E64" }, { t: "npx codesafe fix --all", c: "#E8EFE9" }],
+    [{ t: "▸ generating minimal diffs…", c: "#8A968E" }],
+    [{ t: "✓ fixes re-scanned, 0 findings remain", c: "#6FBF9A" }],
+    [{ t: "✓ branch ", c: "#6FBF9A" }, { t: "codesafe/fix-3-findings", c: "#E8EFE9" }, { t: " pushed", c: "#6FBF9A" }],
+    [{ t: "✓ PR #12 opened", c: "#6FBF9A" }, { t: " → github.com/you/app/pull/12", c: "#8A968E" }],
+    [{ t: "", c: "#8A968E" }],
+    [{ t: "  Review it. Merge it. Ship without fear.", c: "#6FBF9A" }],
+  ];
+
+  faqData = [
+    {
+      q: "Will the fix PR break my app?",
+      a: "Fixes are minimal diffs: codesafe changes the fewest lines possible and never refactors around the fix. Every diff is re-scanned before the PR opens, and you review it like any other pull request. Nothing merges without you."
+    },
+    {
+      q: "Do you store my code?",
+      a: "The cloud clones your repo for the duration of the scan and deletes it right after. If even that is too much, run the open-source CLI locally, so your code never leaves your machine."
+    },
+    {
+      q: "I know nothing about security. Is this for me?",
+      a: "Especially for you. Every finding and every fix comes with a plain-English explanation of what could have happened and what the change does. If you can merge a PR, you can use codesafe."
+    },
+    {
+      q: "Which stacks does it support?",
+      a: "v1 focuses on what AI codegen actually produces: Next.js and TypeScript apps with Supabase, Firebase, Stripe, and friends. More stacks follow based on what the community scans most."
+    },
+    {
+      q: "How is this different from Snyk or a pentest report?",
+      a: "Those tell you what's wrong; codesafe ships the fix. The output is a merged pull request, not a PDF. And because the core is open source with zero runtime dependencies, you can verify exactly what it does."
+    }
+  ];
+
+  checksData = [
+    { owasp: "OWASP A01", title: "Broken access control", desc: "API routes without auth checks, unprotected admin and debug endpoints, missing Supabase RLS, IDOR patterns like params.id straight into a query." },
+    { owasp: "OWASP A02", title: "Secrets & crypto failures", desc: "Hardcoded API keys (Stripe, AWS, service_role, JWT), committed .env files, secrets leaking into client components, weak password hashing." },
+    { owasp: "OWASP A03", title: "Injection", desc: "SQL built from template literals or string concat, command injection via exec/spawn, dangerouslySetInnerHTML fed with variables." },
+    { owasp: "OWASP A05", title: "Misconfiguration", desc: "CORS set to *, missing security headers in next.config, debug mode left on, TLS verification disabled." },
+    { owasp: "OWASP A07", title: "Auth failures", desc: "Tokens stored in localStorage, login routes without rate limiting, session handling an attacker can walk right through." },
+    { owasp: "OWASP A08", title: "Code integrity", desc: "eval() or Function() fed with external input: the shortcut AI codegen loves and attackers love more." }
+  ];
+
+  plansData = [
+    { name: "Free (Open Source)", price: "$0", per: "forever", tagline: "Every feature. Your server.", featured: false, cta: "Self-host with Docker",
+      features: ["Apache 2.0", "Self-hosted", "BYOK (Claude/OpenAI)", "Unlimited repos & scans", "Fix PR generation", "All security rules", "Community updates"] },
+    { name: "Full Audit", price: "$39", per: "one-time", tagline: "One repo, fully fixed.", featured: false, cta: "Audit my repo",
+      features: ["Deep audit of one repo", "Fix PRs for every finding", "Re-scan after merge", "No setup, done for you"] },
+    { name: "Cloud", price: "$19", per: "/month", tagline: "Same features, zero ops.", featured: true, cta: "Join the waitlist",
+      features: ["GitHub App in 30 seconds", "No Docker, Redis, or Postgres", "Automatic updates", "Managed auto-PRs on every deploy"] },
+    { name: "Teams", price: "$99", per: "/month", tagline: "For teams & agent fleets.", featured: false, cta: "Talk to us",
+      features: ["Everything in Cloud", "Unlimited repos & seats", "Rule feed for self-hosters", "Priority support"] }
+  ];
+
+  compareRows = [
+    { label: "Apache 2.0", self: "✓", cloud: "✓" },
+    { label: "All features", self: "✓", cloud: "✓" },
+    { label: "BYOK (Claude/OpenAI)", self: "✓", cloud: "optional, built-in available" },
+    { label: "Updates", self: "you run them", cloud: "automatic" },
+    { label: "GitHub App", self: "set up yourself", cloud: "included" },
+    { label: "Auto-PRs", self: "your own worker", cloud: "managed" },
+    { label: "Setup", self: "Docker", cloud: "30 seconds" },
+    { label: "Price", self: "$0", cloud: "$19/month" }
+  ];
+
+  componentDidMount() {
+    this.startTerminal();
+  }
+
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+  }
+
+  startTerminal = () => {
+    if (this.timer) clearInterval(this.timer);
+    this.setState({ shown: 0 });
+    this.timer = setInterval(() => {
+      this.setState(s => {
+        if (s.shown >= this.fullLines.length) {
+          clearInterval(this.timer);
+          this.timer = null;
+          return null;
+        }
+        return { shown: s.shown + 1 };
+      });
+    }, 420);
+  };
+
+  renderVals() {
+    const ctaMode = this.props.ctaMode ?? "Run the CLI";
+    const styledPlans = this.plansData.map(p => ({
+      ...p,
+      border: p.featured ? "#10805A" : "#E7EAE4",
+      bg: p.featured ? "#FFFFFF" : "#FFFFFF",
+      ctaBg: p.featured ? "#10805A" : "#FFFFFF",
+      ctaColor: p.featured ? "#FAFAF7" : "#18201B",
+      ctaBorder: p.featured ? "#10805A" : "#DDE1DB"
+    }));
+
+    return {
+      isScanCta: ctaMode === "Run the CLI",
+      isWaitlistCta: ctaMode === "Waitlist",
+      termLines: this.fullLines.slice(0, this.state.shown).map(segs => ({ segs })),
+      replayTerminal: this.startTerminal,
+      heroHovered: this.state.hovered === "hero",
+      scanHovered: this.state.hovered === "scan",
+      hoverHero: () => this.setState({ hovered: "hero" }),
+      hoverScan: () => this.setState({ hovered: "scan" }),
+      unhover: () => this.setState({ hovered: null }),
+      goToWaitlist: () => {
+        const el = document.getElementById("waitlist");
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: top, behavior: "smooth" });
+        }
+      },
+      checks: this.checksData,
+      plans: styledPlans,
+      compareRows: this.compareRows,
+      faqs: this.faqData.map((f, i) => ({
+        ...f,
+        open: this.state.openFaq === i,
+        marker: this.state.openFaq === i ? "−" : "+",
+        toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i }))
+      })),
+      emailRef: this.emailRef,
+      joined: this.state.joined,
+      notJoined: !this.state.joined,
+      joinWaitlist: () => {
+        const v = this.emailRef.current ? this.emailRef.current.value.trim() : "";
+        if (v.length > 3 && v.includes("@")) this.setState({ joined: true });
+        else if (this.emailRef.current) this.emailRef.current.focus();
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
