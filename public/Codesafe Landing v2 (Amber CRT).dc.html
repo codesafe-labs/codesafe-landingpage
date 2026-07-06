@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>codesafe.sh · Ship without fear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0E0B07; }
+    * { box-sizing: border-box; }
+    a { color: #F5A623; } a:hover { color: #F5E9CE; }
+    @keyframes cs-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes cs-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</helmet>
+
+<div style="font-family: 'IBM Plex Mono', monospace; color: #B3A180; min-height: 100vh; -webkit-font-smoothing: antialiased; background: repeating-linear-gradient(0deg, #0E0B07 0px, #0E0B07 3px, #100D08 3px, #100D08 4px);">
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <nav data-screen-label="Nav" style="max-width: 1160px; margin: 0 auto; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px dashed #2E2618;">
+    <span style="font-size: 15px; font-weight: 600; color: #F5E9CE;"><span style="color: #F5A623;">▮</span> CODESAFE.SH</span>
+    <div style="display: flex; align-items: center; gap: 24px; font-size: 12.5px; color: #8F7F63;">
+      <a href="#how" style="color: inherit; text-decoration: none;">[F1] HOW</a>
+      <a href="#checks" style="color: inherit; text-decoration: none;">[F2] CHECKS</a>
+      <a href="#pricing" style="color: inherit; text-decoration: none;">[F3] PRICING</a>
+      <a href="#faq" style="color: inherit; text-decoration: none;">[F4] FAQ</a>
+      <a href="Blog.dc.html" style="color: inherit; text-decoration: none;">[F5] CHANGELOG</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 12.5px;">
+      <a href="#opensource" style="color: #8F7F63; text-decoration: none; border: 1px solid #4A3E28; padding: 7px 12px;">★ STAR ON GITHUB</a>
+      <button onClick="{{ goToWaitlist }}" style="background: none; color: #F5A623; border: 1px solid #F5A623; padding: 8px 13px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; font-weight: 600; cursor: pointer;" style-hover="background: #F5A623; color: #0E0B07;">RUN FREE SCAN ▸</button>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header data-screen-label="Hero" style="max-width: 1160px; margin: 0 auto; padding: 76px 32px 72px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 24px; animation: cs-rise 0.6s ease both;">
+      <div style="font-size: 11.5px; color: #8F7F63; letter-spacing: 0.14em;">═══ OPEN SOURCE · APACHE 2.0 · MADE IN THE EU ═══</div>
+      <h1 style="margin: 0; font-size: 60px; line-height: 1.05; font-weight: 700; color: #F5E9CE; letter-spacing: -0.01em;">SHIP<br>WITHOUT<br><span style="color: #F5A623;">FEAR_</span></h1>
+      <p style="margin: 0; font-size: 14px; line-height: 1.8; color: #B3A180; max-width: 440px;">Your AI wrote the app. codesafe finds the security holes it left behind and opens a <span style="color: #F5E9CE; font-weight: 600;">pull request that fixes them</span>. NOT A REPORT. A FIX.</p>
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+        <div style="position: relative; display: flex;">
+          <button onClick="{{ goToWaitlist }}" onMouseEnter="{{ hoverHero }}" onMouseLeave="{{ unhover }}" style="background: #F5A623; color: #0E0B07; border: none; padding: 15px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 700; cursor: pointer;" style-hover="background: #FFBE4A;">$ npx codesafe scan</button>
+          <sc-if value="{{ heroHovered }}" hint-placeholder-val="{{ false }}">
+            <span style="position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #0A0805; color: #F5A623; border: 1px solid #F5A623; font-size: 11.5px; font-weight: 700; padding: 6px 13px; white-space: nowrap; pointer-events: none; letter-spacing: 0.08em; animation: cs-rise 0.2s ease both;">COMING SOON!</span>
+          </sc-if>
+        </div>
+        <a href="#pr" style="border: 1px solid #4A3E28; color: #B3A180; padding: 14px 20px; font-size: 13px; text-decoration: none;" style-hover="border-color: #F5A623; color: #F5A623;">SEE A FIX PR ▸</a>
+      </div>
+      <div style="font-size: 11.5px; color: #6B5F48; letter-spacing: 0.06em;">FREE SCAN &amp; SCORE ── ZERO RUNTIME DEPENDENCIES ── BUILT IN AUSTRIA</div>
+    </div>
+
+    <!-- Animated terminal -->
+    <div style="animation: cs-rise 0.6s 0.15s ease both;">
+      <div onClick="{{ replayTerminal }}" style="border: 1px solid #4A3E28; background: #0A0805; overflow: hidden; cursor: pointer; box-shadow: 0 0 60px rgba(245, 166, 35, 0.07) inset, 0 24px 60px -30px rgba(0, 0, 0, 0.8);">
+        <div style="padding: 11px 18px; border-bottom: 1px dashed #2E2618; font-size: 11px; color: #8F7F63; display: flex; justify-content: space-between;">
+          <span>SECURITY AUDIT — my-vibe-app</span>
+          <span>codesafe v0.4.0</span>
+        </div>
+        <div style="padding: 18px 20px 22px; font-size: 12.5px; line-height: 1.95; min-height: 340px; display: flex; flex-direction: column;">
+          <sc-for list="{{ termLines }}" as="line" hint-placeholder-count="4">
+            <div style="white-space: pre; display: flex;">
+              <sc-for list="{{ line.segs }}" as="seg" hint-placeholder-count="1">
+                <span style="color: {{ seg.c }}; white-space: pre;">{{ seg.t }}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="display: flex;"><span style="display: inline-block; width: 9px; height: 15px; background: #F5A623; animation: cs-blink 1s step-end infinite;"></span></div>
+        </div>
+      </div>
+      <p style="text-align: center; font-size: 11px; color: #6B5F48; margin: 12px 0 0; letter-spacing: 0.08em;">[ CLICK TERMINAL TO REPLAY ]</p>
+    </div>
+  </header>
+
+  <!-- ═══════════ HOW IT WORKS ═══════════ -->
+  <section data-screen-label="How it works" id="how" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 72px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-width: 620px;">
+        <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ HOW IT WORKS ═══</span>
+        <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">FROM SCAN TO MERGED FIX<br>IN THREE STEPS</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px;">
+        <div style="border: 1px solid #2E2618; background: #0A0805; padding: 26px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 12px; color: #F5A623;">[01] CONNECT</span>
+          <p style="margin: 0; font-size: 13px; line-height: 1.75; color: #B3A180;">Install the GitHub App, or run <span style="color: #F5E9CE;">npx codesafe scan</span> locally. Nothing to configure.</p>
+        </div>
+        <div style="border: 1px solid #2E2618; background: #0A0805; padding: 26px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 12px; color: #F5A623;">[02] SCAN</span>
+          <p style="margin: 0; font-size: 13px; line-height: 1.75; color: #B3A180;">Leaked keys, unprotected admin routes, missing auth, SQL injection: the mistakes AI codegen actually makes, explained in plain English.</p>
+        </div>
+        <div style="border: 1px solid #F5A623; background: #171105; padding: 26px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 12px; color: #F5A623;">[03] MERGE THE FIX PR</span>
+          <p style="margin: 0; font-size: 13px; line-height: 1.75; color: #D8C7A8;">codesafe writes a minimal diff, re-scans it, and opens a pull request. You review, merge, and get back to shipping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FIX-PR SHOWCASE ═══════════ -->
+  <section data-screen-label="Fix PR showcase" id="pr" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 72px 32px; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ THE PRODUCT IS THE PR ═══</span>
+        <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">OTHER TOOLS HAND YOU A REPORT. WE HAND YOU THE FIX.</h2>
+        <p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #B3A180;">Every finding comes as a minimal, reviewed diff with an explanation a non-security person can understand. If you can merge a pull request, you can secure your app.</p>
+        <ul style="margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #D8C7A8;">
+          <li style="display: flex; gap: 10px;"><span style="color: #9FBF6B;">✓</span> MINIMAL DIFFS, NO DRIVE-BY REFACTORS</li>
+          <li style="display: flex; gap: 10px;"><span style="color: #9FBF6B;">✓</span> EVERY FIX RE-SCANNED BEFORE THE PR OPENS</li>
+          <li style="display: flex; gap: 10px;"><span style="color: #9FBF6B;">✓</span> PLAIN-ENGLISH "WHAT COULD HAVE HAPPENED"</li>
+        </ul>
+      </div>
+
+      <!-- PR card -->
+      <div style="border: 1px solid #4A3E28; background: #0A0805; overflow: hidden;">
+        <div style="padding: 16px 22px 14px; border-bottom: 1px dashed #2E2618; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <span style="border: 1px solid #9FBF6B; color: #9FBF6B; font-size: 11px; font-weight: 700; padding: 3px 10px; letter-spacing: 0.06em;">◉ OPEN</span>
+            <span style="font-size: 13.5px; font-weight: 600; color: #F5E9CE;">fix: require admin auth on /api/admin routes</span>
+            <span style="font-size: 12.5px; color: #8F7F63;">#12</span>
+          </div>
+          <div style="font-size: 11.5px; color: #8F7F63;">codesafe[bot] wants to merge 1 commit into <span style="color: #F5A623;">main</span> from <span style="color: #F5A623;">codesafe/fix-admin-auth</span></div>
+        </div>
+        <div style="font-size: 12.5px; line-height: 1.85;">
+          <div style="padding: 8px 22px; border-bottom: 1px dashed #2E2618; color: #8F7F63;">── app/api/admin/route.ts</div>
+          <div style="padding: 12px 0 14px; overflow-x: auto;">
+            <div style="padding: 0 22px; color: #6B5F48; white-space: pre;">  export async function GET(req: Request) {</div>
+            <div style="padding: 0 22px; background: #131A0C; color: #9FBF6B; white-space: pre;">+   const session = await auth();</div>
+            <div style="padding: 0 22px; background: #131A0C; color: #9FBF6B; white-space: pre;">+   if (!session?.user?.isAdmin) {</div>
+            <div style="padding: 0 22px; background: #131A0C; color: #9FBF6B; white-space: pre;">+     return new Response("Unauthorized", { status: 401 });</div>
+            <div style="padding: 0 22px; background: #131A0C; color: #9FBF6B; white-space: pre;">+   }</div>
+            <div style="padding: 0 22px; color: #6B5F48; white-space: pre;">    const users = await db.query.users.findMany();</div>
+            <div style="padding: 0 22px; color: #6B5F48; white-space: pre;">    return Response.json(users);</div>
+          </div>
+        </div>
+        <div style="margin: 0 22px 20px; border: 1px dashed #4A3E28; padding: 13px 16px; display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-size: 11px; font-weight: 700; color: #F5A623; letter-spacing: 0.1em;">WHY THIS MATTERS</span>
+          <p style="margin: 0; font-size: 12.5px; line-height: 1.7; color: #B3A180;">Anyone on the internet could list every user in your database, no login required. This adds an admin check before any data is returned.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WHAT IT CHECKS ═══════════ -->
+  <section data-screen-label="What it checks" id="checks" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 72px 32px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 14px; max-width: 620px;">
+          <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ WHAT IT CHECKS ═══</span>
+          <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">BUILT ON OWASP, TUNED FOR AI-GENERATED CODE</h2>
+        </div>
+        <p style="margin: 0; font-size: 12.5px; line-height: 1.7; color: #8F7F63; max-width: 320px;">Not a generic linter: rules target the specific patterns Claude, Cursor, and Lovable produce.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px;">
+        <sc-for list="{{ checks }}" as="check" hint-placeholder-count="6">
+          <div style="border: 1px solid #2E2618; background: #0A0805; padding: 22px; display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 11px; color: #8F7F63; letter-spacing: 0.08em;">{{ check.owasp }}</span>
+            <h3 style="margin: 0; font-size: 14.5px; font-weight: 700; color: #F5E9CE; letter-spacing: 0.02em;">{{ check.title }}</h3>
+            <p style="margin: 0; font-size: 12.5px; line-height: 1.7; color: #B3A180;">{{ check.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FREE SCAN / SCORE ═══════════ -->
+  <section data-screen-label="Free scan score" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 72px 32px; display: grid; grid-template-columns: 1fr 0.9fr; gap: 56px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ FREE SCAN ═══</span>
+        <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">GET YOUR SECURITY SCORE IN 60 SECONDS</h2>
+        <p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #B3A180;">Run the free scan and find out where you stand before someone else does. No credit card, no signup for the CLI. The score is yours to share or fix.</p>
+        <div style="display: flex; margin-top: 4px;">
+          <div style="position: relative; display: flex;">
+            <button onClick="{{ goToWaitlist }}" onMouseEnter="{{ hoverScan }}" onMouseLeave="{{ unhover }}" style="background: #F5A623; color: #0E0B07; border: none; padding: 14px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; font-weight: 700; cursor: pointer;" style-hover="background: #FFBE4A;">$ npx codesafe scan</button>
+            <sc-if value="{{ scanHovered }}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #0A0805; color: #F5A623; border: 1px solid #F5A623; font-size: 11.5px; font-weight: 700; padding: 6px 13px; white-space: nowrap; pointer-events: none; letter-spacing: 0.08em; animation: cs-rise 0.2s ease both;">COMING SOON!</span>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <div style="border: 1px solid #4A3E28; background: #0A0805; padding: 34px 40px; display: flex; flex-direction: column; align-items: center; gap: 18px; min-width: 330px;">
+          <span style="font-size: 11.5px; color: #8F7F63; letter-spacing: 0.14em;">── SECURITY SCORE ──</span>
+          <span style="font-size: 76px; font-weight: 700; color: #9FBF6B; line-height: 1;">A−</span>
+          <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; font-size: 12px; color: #B3A180;">
+            <div style="display: flex; justify-content: space-between; gap: 24px;"><span>FINDINGS FIXED</span><span style="color: #F5E9CE;">7 OF 8</span></div>
+            <div style="display: flex; justify-content: space-between; gap: 24px;"><span>LAST SCAN</span><span style="color: #F5E9CE;">ON DEPLOY · 2H AGO</span></div>
+            <div style="display: flex; justify-content: space-between; gap: 24px;"><span>SCORE LAST WEEK</span><span style="color: #E0705A;">C</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ OPEN SOURCE / TRUST ═══════════ -->
+  <section data-screen-label="Open source" id="opensource" style="border-top: 1px solid #F5A623; background: #171105;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 72px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 640px;">
+        <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ OPEN SOURCE ═══</span>
+        <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">A SECURITY TOOL YOU CAN ACTUALLY READ</h2>
+        <p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #B3A180;">Trusting a black box with your codebase is exactly the problem we're solving. So there isn't one.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px;">
+        <div style="border: 1px dashed #4A3E28; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <h3 style="margin: 0; font-size: 14px; font-weight: 700; color: #F5A623; letter-spacing: 0.04em;">APACHE 2.0 CORE</h3>
+          <p style="margin: 0; font-size: 12.5px; line-height: 1.75; color: #B3A180;">The scanner and fix engine are open source. Audit every rule, run it forever, self-host the whole thing.</p>
+        </div>
+        <div style="border: 1px dashed #4A3E28; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <h3 style="margin: 0; font-size: 14px; font-weight: 700; color: #F5A623; letter-spacing: 0.04em;">ZERO RUNTIME DEPENDENCIES</h3>
+          <p style="margin: 0; font-size: 12.5px; line-height: 1.75; color: #B3A180;">The CLI ships with no third-party packages. A security tool shouldn't be a supply-chain risk itself.</p>
+        </div>
+        <div style="border: 1px dashed #4A3E28; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <h3 style="margin: 0; font-size: 14px; font-weight: 700; color: #F5A623; letter-spacing: 0.04em;">YOUR CODE STAYS YOURS</h3>
+          <p style="margin: 0; font-size: 12.5px; line-height: 1.75; color: #B3A180;">Run scans locally with the CLI, or use the cloud, where repos are cloned for the scan and deleted right after.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PRICING ═══════════ -->
+  <section data-screen-label="Pricing" id="pricing" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 72px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
+        <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ PRICING ═══</span>
+        <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">FREE FOREVER. PAY ONLY FOR HOSTING.</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; align-items: stretch;">
+        <sc-for list="{{ plans }}" as="plan" hint-placeholder-count="4">
+          <div style="border: 1px solid {{ plan.border }}; background: {{ plan.bg }}; padding: 26px 22px; display: flex; flex-direction: column; gap: 16px; position: relative;">
+            <sc-if value="{{ plan.featured }}" hint-placeholder-val="{{ false }}">
+              <span style="position: absolute; top: -10px; left: 22px; background: #F5A623; color: #0E0B07; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 10px;">MOST POPULAR</span>
+            </sc-if>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <h3 style="margin: 0; font-size: 12.5px; font-weight: 700; color: #F5A623; letter-spacing: 0.06em;">{{ plan.name }}</h3>
+              <div style="display: flex; align-items: baseline; gap: 5px;">
+                <span style="font-size: 32px; font-weight: 700; color: #F5E9CE;">{{ plan.price }}</span>
+                <span style="font-size: 12px; color: #8F7F63;">{{ plan.per }}</span>
+              </div>
+              <p style="margin: 0; font-size: 12px; line-height: 1.6; color: #8F7F63;">{{ plan.tagline }}</p>
+            </div>
+            <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: #B3A180; flex: 1;">
+              <sc-for list="{{ plan.features }}" as="feat" hint-placeholder-count="3">
+                <li style="display: flex; gap: 8px;"><span style="color: #9FBF6B;">✓</span> <span>{{ feat }}</span></li>
+              </sc-for>
+            </ul>
+            <button onClick="{{ goToWaitlist }}" style="background: {{ plan.ctaBg }}; color: {{ plan.ctaColor }}; border: 1px solid {{ plan.ctaBorder }}; padding: 11px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em;">{{ plan.cta }}</button>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- No artificial limitations -->
+      <div style="margin-top: 48px; border: 1px solid #4A3E28; background: #0A0805; padding: 36px; display: flex; flex-direction: column; gap: 26px;">
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center;">
+          <h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #F5E9CE; letter-spacing: 0.02em;">NO ARTIFICIAL LIMITATIONS.</h3>
+          <p style="margin: 0; font-size: 13px; line-height: 1.7; color: #B3A180; max-width: 480px;">The self-hosted version has every feature. You only pay if you want us to host it.</p>
+        </div>
+        <div style="border: 1px dashed #2E2618; max-width: 720px; width: 100%; margin: 0 auto;">
+          <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; padding: 11px 22px; border-bottom: 1px dashed #2E2618; font-size: 11px; font-weight: 700; color: #F5A623; letter-spacing: 0.08em;">
+            <span></span>
+            <span>SELF-HOSTED</span>
+            <span>CLOUD</span>
+          </div>
+          <sc-for list="{{ compareRows }}" as="row" hint-placeholder-count="8">
+            <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; padding: 10px 22px; font-size: 12px; border-bottom: 1px dashed #1E1810; align-items: baseline;">
+              <span style="color: #F5E9CE;">{{ row.label }}</span>
+              <span style="color: #B3A180;">{{ row.self }}</span>
+              <span style="color: #B3A180;">{{ row.cloud }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FAQ ═══════════ -->
+  <section data-screen-label="FAQ" id="faq" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 780px; margin: 0 auto; padding: 72px 32px;">
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
+        <span style="font-size: 11.5px; color: #F5A623; letter-spacing: 0.14em;">═══ FAQ ═══</span>
+        <h2 style="margin: 0; font-size: 34px; font-weight: 700; color: #F5E9CE; line-height: 1.15;">QUESTIONS, ANSWERED HONESTLY</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 40px;">
+        <sc-for list="{{ faqs }}" as="faq" hint-placeholder-count="5">
+          <div style="border: 1px solid #2E2618; background: #0A0805; overflow: hidden;">
+            <button onClick="{{ faq.toggle }}" style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; font-weight: 600; color: #F5E9CE; cursor: pointer; text-align: left;">
+              {{ faq.q }}
+              <span style="color: #F5A623; font-size: 15px; flex-shrink: 0;">{{ faq.marker }}</span>
+            </button>
+            <sc-if value="{{ faq.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin: 0; padding: 0 20px 18px; font-size: 12.5px; line-height: 1.8; color: #B3A180;">{{ faq.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WAITLIST ═══════════ -->
+  <section data-screen-label="Waitlist" id="waitlist" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 680px; margin: 0 auto; padding: 88px 32px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center;">
+      <h2 style="margin: 0; font-size: 40px; font-weight: 700; color: #F5E9CE; line-height: 1.1;">YOUR APP IS LIVE.<br><span style="color: #F5A623;">IS IT SAFE?</span></h2>
+      <p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #B3A180; max-width: 460px;">Cloud scans and auto-PRs are rolling out to the waitlist first. The CLI is free today.</p>
+      <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; gap: 10px; width: 100%; max-width: 460px; margin-top: 8px;">
+          <input ref="{{ emailRef }}" type="email" placeholder="you@yourapp.com" style="flex: 1; border: 1px solid #4A3E28; background: #0A0805; padding: 13px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #F5E9CE; outline: none;" style-focus="border-color: #F5A623;">
+          <button onClick="{{ joinWaitlist }}" style="background: #F5A623; color: #0E0B07; border: none; padding: 13px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; cursor: pointer;" style-hover="background: #FFBE4A;">JOIN WAITLIST ▸</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ joined }}" hint-placeholder-val="{{ false }}">
+        <div style="border: 1px solid #9FBF6B; color: #9FBF6B; padding: 13px 20px; font-size: 13px; font-weight: 600; margin-top: 8px;">✓ YOU'RE ON THE LIST. WE'LL BE IN TOUCH.</div>
+      </sc-if>
+      <span style="font-size: 11px; color: #6B5F48; letter-spacing: 0.08em;">NO SPAM. ONE EMAIL WHEN YOUR INVITE IS READY.</span>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="border-top: 1px dashed #2E2618;">
+    <div style="max-width: 1160px; margin: 0 auto; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 11.5px; color: #8F7F63;">
+      <span style="color: #F5E9CE; font-weight: 600;"><span style="color: #F5A623;">▮</span> CODESAFE.SH <span style="color: #6B5F48; font-weight: 400; margin-left: 8px;">MADE IN AUSTRIA · HOSTED IN THE EU</span></span>
+      <div style="display: flex; gap: 22px;">
+        <a href="#opensource" style="color: inherit; text-decoration: none;">GITHUB</a>
+        <a href="#checks" style="color: inherit; text-decoration: none;">DOCS</a>
+        <a href="Blog.dc.html" style="color: inherit; text-decoration: none;">CHANGELOG</a>
+        <a href="Imprint.dc.html" style="color: inherit; text-decoration: none;">IMPRINT</a>
+        <a href="Imprint.dc.html" style="color: inherit; text-decoration: none;">PRIVACY</a>
+        <span>© 2026 CODESAFE</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { shown: 0, joined: false, openFaq: 0, hovered: null };
+
+  emailRef = React.createRef();
+  timer = null;
+
+  fullLines = [
+    [{ t: "$ ", c: "#6B5F48" }, { t: "npx codesafe scan .", c: "#F5E9CE" }],
+    [{ t: "▸ SCANNING 214 FILES...", c: "#8F7F63" }],
+    [{ t: "", c: "#8F7F63" }],
+    [{ t: "[HIGH] STRIPE SECRET EXPOSED ......... stripe.ts:4", c: "#E0705A" }],
+    [{ t: "[HIGH] /api/admin UNPROTECTED ........ route.ts:1", c: "#E0705A" }],
+    [{ t: "[MED ] SQL INJECTION RISK ............ queries.ts:31", c: "#D9B45B" }],
+    [{ t: "──────────────────────────────────────", c: "#4A3E28" }],
+    [{ t: "SCAN COMPLETE · 3 FINDINGS · SCORE ", c: "#8F7F63" }, { t: "C−", c: "#E0705A" }],
+    [{ t: "", c: "#8F7F63" }],
+    [{ t: "$ ", c: "#6B5F48" }, { t: "npx codesafe fix --all", c: "#F5E9CE" }],
+    [{ t: "▸ GENERATING MINIMAL DIFFS...", c: "#8F7F63" }],
+    [{ t: "✓ FIXES RE-SCANNED, 0 FINDINGS REMAIN", c: "#9FBF6B" }],
+    [{ t: "✓ BRANCH codesafe/fix-3-findings PUSHED", c: "#9FBF6B" }],
+    [{ t: "✓ PR #12 OPENED ", c: "#9FBF6B" }, { t: "→ github.com/you/app/pull/12", c: "#8F7F63" }],
+    [{ t: "", c: "#8F7F63" }],
+    [{ t: "READY TO SHIP.", c: "#F5A623" }],
+  ];
+
+  faqData = [
+    {
+      q: "WILL THE FIX PR BREAK MY APP?",
+      a: "Fixes are minimal diffs: codesafe changes the fewest lines possible and never refactors around the fix. Every diff is re-scanned before the PR opens, and you review it like any other pull request. Nothing merges without you."
+    },
+    {
+      q: "DO YOU STORE MY CODE?",
+      a: "The cloud clones your repo for the duration of the scan and deletes it right after. If even that is too much, run the open-source CLI locally, so your code never leaves your machine."
+    },
+    {
+      q: "I KNOW NOTHING ABOUT SECURITY. IS THIS FOR ME?",
+      a: "Especially for you. Every finding and every fix comes with a plain-English explanation of what could have happened and what the change does. If you can merge a PR, you can use codesafe."
+    },
+    {
+      q: "WHICH STACKS DOES IT SUPPORT?",
+      a: "v1 focuses on what AI codegen actually produces: Next.js and TypeScript apps with Supabase, Firebase, Stripe, and friends. More stacks follow based on what the community scans most."
+    },
+    {
+      q: "HOW IS THIS DIFFERENT FROM SNYK OR A PENTEST REPORT?",
+      a: "Those tell you what's wrong; codesafe ships the fix. The output is a merged pull request, not a PDF. And because the core is open source with zero runtime dependencies, you can verify exactly what it does."
+    }
+  ];
+
+  checksData = [
+    { owasp: "OWASP A01", title: "BROKEN ACCESS CONTROL", desc: "API routes without auth checks, unprotected admin and debug endpoints, missing Supabase RLS, IDOR patterns like params.id straight into a query." },
+    { owasp: "OWASP A02", title: "SECRETS & CRYPTO FAILURES", desc: "Hardcoded API keys (Stripe, AWS, service_role, JWT), committed .env files, secrets leaking into client components, weak password hashing." },
+    { owasp: "OWASP A03", title: "INJECTION", desc: "SQL built from template literals or string concat, command injection via exec/spawn, dangerouslySetInnerHTML fed with variables." },
+    { owasp: "OWASP A05", title: "MISCONFIGURATION", desc: "CORS set to *, missing security headers in next.config, debug mode left on, TLS verification disabled." },
+    { owasp: "OWASP A07", title: "AUTH FAILURES", desc: "Tokens stored in localStorage, login routes without rate limiting, session handling an attacker can walk right through." },
+    { owasp: "OWASP A08", title: "CODE INTEGRITY", desc: "eval() or Function() fed with external input: the shortcut AI codegen loves and attackers love more." }
+  ];
+
+  plansData = [
+    { name: "FREE (OPEN SOURCE)", price: "$0", per: "forever", tagline: "Every feature. Your server.", featured: false, cta: "SELF-HOST WITH DOCKER",
+      features: ["Apache 2.0", "Self-hosted", "BYOK (Claude/OpenAI)", "Unlimited repos & scans", "Fix PR generation", "All security rules", "Community updates"] },
+    { name: "FULL AUDIT", price: "$39", per: "one-time", tagline: "One repo, fully fixed.", featured: false, cta: "AUDIT MY REPO",
+      features: ["Deep audit of one repo", "Fix PRs for every finding", "Re-scan after merge", "No setup, done for you"] },
+    { name: "CLOUD", price: "$19", per: "/month", tagline: "Same features, zero ops.", featured: true, cta: "JOIN THE WAITLIST",
+      features: ["GitHub App in 30 seconds", "No Docker, Redis, or Postgres", "Automatic updates", "Managed auto-PRs on every deploy"] },
+    { name: "TEAMS", price: "$99", per: "/month", tagline: "For teams & agent fleets.", featured: false, cta: "TALK TO US",
+      features: ["Everything in Cloud", "Unlimited repos & seats", "Rule feed for self-hosters", "Priority support"] }
+  ];
+
+  compareRows = [
+    { label: "Apache 2.0", self: "✓", cloud: "✓" },
+    { label: "All features", self: "✓", cloud: "✓" },
+    { label: "BYOK (Claude/OpenAI)", self: "✓", cloud: "optional, built-in available" },
+    { label: "Updates", self: "you run them", cloud: "automatic" },
+    { label: "GitHub App", self: "set up yourself", cloud: "included" },
+    { label: "Auto-PRs", self: "your own worker", cloud: "managed" },
+    { label: "Setup", self: "Docker", cloud: "30 seconds" },
+    { label: "Price", self: "$0", cloud: "$19/month" }
+  ];
+
+  componentDidMount() {
+    this.startTerminal();
+  }
+
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+  }
+
+  startTerminal = () => {
+    if (this.timer) clearInterval(this.timer);
+    this.setState({ shown: 0 });
+    this.timer = setInterval(() => {
+      this.setState(s => {
+        if (s.shown >= this.fullLines.length) {
+          clearInterval(this.timer);
+          this.timer = null;
+          return null;
+        }
+        return { shown: s.shown + 1 };
+      });
+    }, 420);
+  };
+
+  renderVals() {
+    const styledPlans = this.plansData.map(p => ({
+      ...p,
+      border: p.featured ? "#F5A623" : "#2E2618",
+      bg: p.featured ? "#171105" : "#0A0805",
+      ctaBg: p.featured ? "#F5A623" : "transparent",
+      ctaColor: p.featured ? "#0E0B07" : "#F5A623",
+      ctaBorder: "#F5A623"
+    }));
+
+    return {
+      termLines: this.fullLines.slice(0, this.state.shown).map(segs => ({ segs })),
+      replayTerminal: this.startTerminal,
+      heroHovered: this.state.hovered === "hero",
+      scanHovered: this.state.hovered === "scan",
+      hoverHero: () => this.setState({ hovered: "hero" }),
+      hoverScan: () => this.setState({ hovered: "scan" }),
+      unhover: () => this.setState({ hovered: null }),
+      goToWaitlist: () => {
+        const el = document.getElementById("waitlist");
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: top, behavior: "smooth" });
+        }
+      },
+      checks: this.checksData,
+      plans: styledPlans,
+      compareRows: this.compareRows,
+      faqs: this.faqData.map((f, i) => ({
+        ...f,
+        open: this.state.openFaq === i,
+        marker: this.state.openFaq === i ? "−" : "+",
+        toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i }))
+      })),
+      emailRef: this.emailRef,
+      joined: this.state.joined,
+      notJoined: !this.state.joined,
+      joinWaitlist: () => {
+        const v = this.emailRef.current ? this.emailRef.current.value.trim() : "";
+        if (v.length > 3 && v.includes("@")) this.setState({ joined: true });
+        else if (this.emailRef.current) this.emailRef.current.focus();
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
