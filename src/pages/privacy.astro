@@ -1,0 +1,92 @@
+---
+export const prerender = true;
+
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Nav from '../components/marketing/Nav.astro';
+import Footer from '../components/marketing/Footer.astro';
+import { site } from '../config/site';
+---
+
+<MarketingLayout title="Privacy · codesafe.sh" maxWidth="imprint">
+	<Nav slot="nav" variant="subpage" width="imprint" />
+
+	<div class="flex flex-col gap-12 px-8 pb-24 pt-12">
+		<div class="flex flex-col gap-3">
+			<h1
+				class="m-0 font-display text-[42px] font-bold leading-[1.05] tracking-tight"
+			>
+				Privacy Policy
+			</h1>
+			<p class="m-0 text-[15px] text-subtle">
+				How codesafe.sh handles your personal data under the GDPR (DSGVO).
+			</p>
+		</div>
+
+		<div class="flex flex-col gap-8 text-[15px] leading-[1.7] text-muted">
+			<section class="flex flex-col gap-3">
+				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+					What we collect
+				</h2>
+				<p class="m-0 text-pretty">
+					This website collects email addresses when you join the cloud waitlist or
+					subscribe to changelog release notes. No third-party analytics or
+					tracking scripts are used.
+				</p>
+			</section>
+
+			<section class="flex flex-col gap-3">
+				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+					Where data is stored
+				</h2>
+				<p class="m-0 text-pretty">
+					Email addresses are stored in a self-hosted PostgreSQL database on
+					EU-hosted infrastructure operated by codesafe. Data is not shared with
+					third-party processors.
+				</p>
+			</section>
+
+			<section class="flex flex-col gap-3">
+				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+					Purpose and retention
+				</h2>
+				<p class="m-0 text-pretty">
+					Waitlist emails are used to send cloud access invites. Changelog
+					subscriptions receive release notes only. Data is retained until you
+					unsubscribe or request deletion.
+				</p>
+			</section>
+
+			<section class="flex flex-col gap-3">
+				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+					Your rights
+				</h2>
+				<p class="m-0 text-pretty">
+					Under the GDPR you have the right to access, rectify, or delete your
+					personal data. Contact us at <a
+						href={`mailto:${site.legal.email}`}
+						class="text-green-dark">{site.legal.email}</a
+					> to exercise these rights.
+				</p>
+			</section>
+
+			<section class="flex flex-col gap-3">
+				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+					Product note
+				</h2>
+				<p class="m-0 text-pretty">
+					When using the codesafe cloud product, repositories are cloned only for
+					the duration of a scan and deleted afterwards. This policy covers the
+					marketing website only.
+				</p>
+			</section>
+
+			<p class="m-0">
+				<a href="/imprint" class="font-semibold text-green-dark no-underline"
+					>← Back to Imprint</a
+				>
+			</p>
+		</div>
+	</div>
+
+	<Footer slot="footer" variant="subpage" width="imprint" />
+</MarketingLayout>

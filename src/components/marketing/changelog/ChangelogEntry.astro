@@ -1,0 +1,61 @@
+---
+import type { ChangelogTag } from '../../../data/tagStyles';
+import { tagStyles } from '../../../data/tagStyles';
+
+interface Props {
+	date: Date;
+	tag: ChangelogTag;
+	version: string;
+	title: string;
+	description: string;
+	items: string[];
+}
+
+const { date, tag, version, title, description, items } = Astro.props;
+const styles = tagStyles[tag];
+
+const formattedDate = date.toLocaleDateString('en-US', {
+	month: 'short',
+	day: 'numeric',
+	year: 'numeric',
+});
+---
+
+<article
+	class="grid gap-8 border-t border-border py-9 md:grid-cols-[180px_1fr]"
+>
+	<div class="flex flex-col items-start gap-2">
+		<span class="font-mono text-[13px] font-semibold text-subtle"
+			>{formattedDate}</span
+		>
+		<span
+			class="inline-flex items-center gap-1.5 rounded-full border px-[11px] py-1 text-xs font-bold"
+			style={`background: ${styles.bg}; border-color: ${styles.border}; color: ${styles.text};`}
+		>
+			{tag}
+		</span>
+		<span class="font-mono text-xs text-faint">{version}</span>
+	</div>
+	<div class="flex flex-col gap-3">
+		<h2
+			class="m-0 font-display text-[26px] font-bold leading-[1.15] tracking-tight"
+		>
+			{title}
+		</h2>
+		<p class="m-0 text-[15.5px] leading-[1.65] text-muted text-pretty">
+			{description}
+		</p>
+		<ul
+			class="m-1 flex list-none flex-col gap-2 p-0 text-[14.5px] text-[#33443B]"
+		>
+			{
+				items.map((item) => (
+					<li class="flex items-baseline gap-2.5">
+						<span class="shrink-0 font-bold text-green">›</span>
+						<span>{item}</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</article>

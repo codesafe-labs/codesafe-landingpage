@@ -1,0 +1,25 @@
+---
+import WaitlistForm from '../../islands/WaitlistForm.tsx';
+---
+
+<section id="waitlist" class="border-t border-border bg-cream">
+	<div
+		class="mx-auto flex max-w-[680px] flex-col items-center gap-5 px-8 py-24 text-center"
+	>
+		<h2
+			class="m-0 font-display text-[44px] font-bold leading-[1.05] tracking-tight text-balance"
+		>
+			Your app is live. Is it safe?
+		</h2>
+		<p
+			class="m-0 max-w-[460px] text-[16.5px] leading-relaxed text-muted text-pretty"
+		>
+			Cloud scans and auto-PRs are rolling out to the waitlist first. The CLI is
+			free today.
+		</p>
+		<WaitlistForm client:load />
+		<span class="text-[12.5px] text-faint"
+			>No spam. One email when your invite is ready.</span
+		>
+	</div>
+</section>

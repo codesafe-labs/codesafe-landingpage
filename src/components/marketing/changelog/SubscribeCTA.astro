@@ -1,0 +1,17 @@
+---
+import SubscribeForm from '../../islands/SubscribeForm.tsx';
+---
+
+<div
+	class="mt-6 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-green-border bg-green-pale p-8"
+>
+	<div class="flex flex-col gap-1.5">
+		<h3 class="m-0 font-display text-[21px] font-bold">
+			Get release notes by email
+		</h3>
+		<p class="m-0 text-[14.5px] text-[#33443B]">
+			One short email per release. No marketing.
+		</p>
+	</div>
+	<SubscribeForm client:load />
+</div>

@@ -1,0 +1,109 @@
+---
+import { plansData, compareRows } from '../../../data/landing';
+---
+
+<section id="pricing" class="border-t border-border bg-cream">
+	<div class="mx-auto max-w-landing px-8 py-[88px]">
+		<div class="flex flex-col items-center gap-3 text-center">
+			<span
+				class="font-mono text-[13px] font-semibold tracking-[0.06em] text-green"
+				>PRICING</span
+			>
+			<h2
+				class="m-0 font-display text-[38px] font-bold leading-[1.1] tracking-tight"
+			>
+				Free forever. Pay only for hosting.
+			</h2>
+		</div>
+		<div
+			class="mt-12 grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4"
+		>
+			{
+				plansData.map((plan) => (
+					<div
+						class:list={[
+							'relative flex flex-col gap-4 rounded-2xl border bg-white px-6 py-7',
+							plan.featured ? 'border-green' : 'border-border',
+						]}
+					>
+						{plan.featured && (
+							<span class="absolute -top-3 left-6 rounded-full bg-green px-3 py-1 text-[11.5px] font-bold tracking-wide text-cream">
+								MOST POPULAR
+							</span>
+						)}
+						<div class="flex flex-col gap-1.5">
+							<h3 class="m-0 text-base font-semibold">{plan.name}</h3>
+							<div class="flex items-baseline gap-1">
+								<span class="font-display text-4xl font-bold tracking-tight">
+									{plan.price}
+								</span>
+								<span class="text-[13.5px] font-medium text-subtle">
+									{plan.per}
+								</span>
+							</div>
+							<p class="m-0 text-[13.5px] leading-snug text-subtle">
+								{plan.tagline}
+							</p>
+						</div>
+						<ul class="m-0 flex flex-1 list-none flex-col gap-2 p-0 text-[13.5px] text-[#33443B]">
+							{plan.features.map((feat) => (
+								<li class="flex items-baseline gap-2">
+									<span class="font-bold text-green">✓</span> {feat}
+								</li>
+							))}
+						</ul>
+						<a
+							href="#waitlist"
+							class:list={[
+								'rounded-[9px] border px-3.5 py-[11px] text-center text-sm font-semibold no-underline',
+								plan.featured
+									? 'border-green bg-green text-cream'
+									: 'border-[#DDE1DB] bg-white text-ink',
+							]}
+						>
+							{plan.cta}
+						</a>
+					</div>
+				))
+			}
+		</div>
+
+		<div
+			class="mt-14 flex flex-col gap-7 rounded-[18px] border border-green-border bg-green-pale p-10"
+		>
+			<div class="flex flex-col items-center gap-2.5 text-center">
+				<h3
+					class="m-0 font-display text-[28px] font-bold tracking-tight text-ink"
+				>
+					No artificial limitations.
+				</h3>
+				<p
+					class="m-0 max-w-[480px] text-base leading-relaxed text-[#33443B] text-pretty"
+				>
+					The self-hosted version has every feature. You only pay if you want us
+					to host it.
+				</p>
+			</div>
+			<div
+				class="mx-auto w-full max-w-[720px] overflow-hidden rounded-xl border border-[#DDE8DE] bg-white"
+			>
+				<div
+					class="grid grid-cols-[1.3fr_1fr_1fr] gap-4 border-b border-[#EBEEE8] bg-[#F6F8F4] px-6 py-3.5 text-[13px] font-bold text-muted"
+				>
+					<span></span>
+					<span>Self-Hosted</span>
+					<span>Cloud</span>
+				</div>
+				{
+					compareRows.map((row) => (
+						<div class="grid grid-cols-[1.3fr_1fr_1fr] items-baseline gap-4 border-b border-[#F0F2EC] px-6 py-3 text-sm last:border-b-0">
+							<span class="font-semibold text-ink">{row.label}</span>
+							<span class="text-[#33443B]">{row.self}</span>
+							<span class="text-[#33443B]">{row.cloud}</span>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>

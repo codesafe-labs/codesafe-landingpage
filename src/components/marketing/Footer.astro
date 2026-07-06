@@ -1,0 +1,66 @@
+---
+import { site } from '../../config/site';
+
+interface Props {
+	variant?: 'landing' | 'subpage';
+	width?: 'changelog' | 'imprint';
+}
+
+const { variant = 'landing', width = 'changelog' } = Astro.props;
+
+const widthClass = width === 'imprint' ? 'max-w-imprint' : 'max-w-changelog';
+---
+
+<footer class="border-t border-border bg-white">
+	<div
+		class:list={[
+			'mx-auto flex flex-wrap items-center justify-between gap-6 px-8 py-7',
+			variant === 'landing' ? 'max-w-landing' : widthClass,
+		]}
+	>
+		{
+			variant === 'landing' ? (
+				<div class="flex items-center gap-2">
+					<div class="grid h-5 w-5 place-items-center rounded-md bg-green font-mono text-[11px] font-semibold text-cream">
+						&gt;
+					</div>
+					<span class="font-mono text-[13.5px] font-semibold">codesafe.sh</span>
+					<span class="ml-2 text-[12.5px] font-medium text-faint">
+						Made in Austria
+					</span>
+				</div>
+			) : (
+				<span class="font-mono text-[13.5px] font-semibold text-ink">
+					codesafe.sh
+				</span>
+			)
+		}
+		<div class="flex flex-wrap gap-6 text-[13px] font-medium text-subtle">
+			{
+				variant === 'landing' && (
+					<>
+						<a
+							href={site.github}
+							class="text-inherit no-underline hover:text-ink"
+						>
+							GitHub
+						</a>
+						<a href={site.docs} class="text-inherit no-underline hover:text-ink">
+							Docs
+						</a>
+						<a href="#pricing" class="text-inherit no-underline hover:text-ink">
+							Pricing
+						</a>
+					</>
+				)
+			}
+			<a href="/imprint" class="text-inherit no-underline hover:text-ink">
+				Imprint
+			</a>
+			<a href="/privacy" class="text-inherit no-underline hover:text-ink">
+				Privacy
+			</a>
+			<span>© 2026 codesafe</span>
+		</div>
+	</div>
+</footer>

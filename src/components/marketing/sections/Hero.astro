@@ -1,0 +1,64 @@
+---
+import TerminalAnimation from '../../islands/TerminalAnimation.tsx';
+import { terminalLines } from '../../../data/landing';
+---
+
+<header
+	id="scan"
+	class="mx-auto grid max-w-landing items-center gap-16 px-8 pb-[88px] pt-16 lg:grid-cols-[1.05fr_1fr]"
+>
+	<div class="flex animate-cs-rise flex-col gap-6">
+		<div class="flex flex-wrap gap-2.5">
+			<div
+				class="inline-flex items-center gap-2 rounded-full border border-green-border bg-green-pale px-[13px] py-1.5 text-[13px] font-semibold text-green-dark"
+			>
+				<span class="h-[7px] w-[7px] rounded-full bg-green"></span>
+				Open-source security for AI-built apps
+			</div>
+			<div
+				class="inline-flex items-center gap-2 rounded-full border border-[#DDE1DB] bg-white px-[13px] py-1.5 text-[13px] font-semibold text-muted"
+			>
+				<span class="h-[7px] w-[7px] rounded-full bg-[#2A5FB8]"></span>
+				Made in the EU
+			</div>
+		</div>
+		<h1
+			class="m-0 font-display text-[62px] font-bold leading-[1.02] tracking-tight text-balance"
+		>
+			Ship without fear.
+		</h1>
+		<p class="m-0 max-w-[460px] text-[19px] leading-[1.55] text-muted text-pretty">
+			Your AI wrote the app. codesafe finds the security holes it left behind,
+			then opens a <strong class="font-semibold text-ink"
+				>pull request that fixes them</strong
+			>. Not a report. A fix you can merge.
+		</p>
+		<div class="flex flex-wrap items-center gap-3.5">
+			<a
+				href="#waitlist"
+				class="rounded-[10px] bg-ink px-[22px] py-3.5 text-[15px] font-semibold text-dark-text no-underline"
+			>
+				Join the waitlist
+			</a>
+			<a
+				href="#pr"
+				class="flex items-center gap-1.5 text-[15px] font-semibold text-green-dark no-underline"
+			>
+				See a real fix PR <span aria-hidden="true">→</span>
+			</a>
+		</div>
+		<div
+			class="flex flex-wrap items-center gap-[18px] text-[13px] font-medium text-subtle"
+		>
+			<span>Free scan & score</span>
+			<span class="h-[3px] w-[3px] rounded-full bg-[#C4CBC4]"></span>
+			<span>Zero runtime dependencies</span>
+			<span class="h-[3px] w-[3px] rounded-full bg-[#C4CBC4]"></span>
+			<span>Apache 2.0 core</span>
+			<span class="h-[3px] w-[3px] rounded-full bg-[#C4CBC4]"></span>
+			<span>Built & hosted in the EU</span>
+		</div>
+	</div>
+
+	<TerminalAnimation client:visible lines={terminalLines} />
+</header>

@@ -1,114 +1,60 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+export const prerender = true;
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+import { getCollection } from 'astro:content';
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import Nav from '../../components/marketing/Nav.astro';
+import Footer from '../../components/marketing/Footer.astro';
+import ChangelogEntry from '../../components/marketing/changelog/ChangelogEntry.astro';
+import SubscribeCTA from '../../components/marketing/changelog/SubscribeCTA.astro';
+
+const entries = await getCollection('changelog');
+const sorted = entries.sort(
+	(a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
+<MarketingLayout
+	title="Changelog · codesafe.sh"
+	description="Every release, new rule, and fix. Building in the open, shipped from Austria."
+	maxWidth="changelog"
+>
+	<Nav slot="nav" variant="subpage" subpageLabel="Changelog" />
+
+	<div class="px-8 pb-24 pt-12">
+		<div class="flex max-w-[560px] flex-col gap-3.5">
+			<span
+				class="font-mono text-[13px] font-semibold tracking-[0.06em] text-green"
+				>CHANGELOG</span
+			>
+			<h1
+				class="m-0 font-display text-[46px] font-bold leading-[1.05] tracking-tight"
+			>
+				What's new in codesafe
+			</h1>
+			<p class="m-0 text-[16.5px] leading-relaxed text-muted text-pretty">
+				Every release, new rule, and fix. Building in the open, shipped from
+				Austria.
+			</p>
+		</div>
+
+		<div class="mt-14 flex flex-col">
+			{
+				sorted.map((entry) => (
+					<ChangelogEntry
+						date={entry.data.date}
+						tag={entry.data.tag}
+						version={entry.data.version}
+						title={entry.data.title}
+						description={entry.data.description}
+						items={entry.data.items}
+					/>
+				))
 			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+		</div>
+
+		<SubscribeCTA />
+	</div>
+
+	<Footer slot="footer" variant="subpage" />
+</MarketingLayout>

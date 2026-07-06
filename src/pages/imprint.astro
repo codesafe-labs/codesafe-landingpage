@@ -1,0 +1,104 @@
+---
+export const prerender = true;
+
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import Nav from '../components/marketing/Nav.astro';
+import Footer from '../components/marketing/Footer.astro';
+import { site } from '../config/site';
+---
+
+<MarketingLayout
+	title="Imprint · codesafe.sh"
+	maxWidth="imprint"
+>
+	<Nav slot="nav" variant="subpage" width="imprint" />
+
+	<div class="flex flex-col gap-12 px-8 pb-24 pt-12">
+		<div class="flex flex-col gap-3">
+			<h1
+				class="m-0 font-display text-[42px] font-bold leading-[1.05] tracking-tight"
+			>
+				Imprint / Impressum
+			</h1>
+			<p class="m-0 text-[15px] text-subtle">
+				Information pursuant to §5 E-Commerce-Gesetz (ECG) and §25
+				Mediengesetz, Austria.
+			</p>
+		</div>
+
+		<div
+			class="flex flex-col gap-5 rounded-[14px] border border-border bg-white p-8"
+		>
+			<div
+				class="grid grid-cols-1 gap-3 text-[15px] leading-relaxed sm:grid-cols-[200px_1fr] sm:gap-x-6"
+			>
+				<span class="font-semibold text-muted">Media owner / operator</span>
+				<span class="font-mono text-[13.5px] text-subtle"
+					>{site.legal.operator}</span
+				>
+				<span class="font-semibold text-muted">Address</span>
+				<span class="font-mono text-[13.5px] text-subtle"
+					>{site.legal.address}</span
+				>
+				<span class="font-semibold text-muted">Email</span>
+				<span class="font-mono text-[13.5px] text-subtle"
+					>{site.legal.email}</span
+				>
+				<span class="font-semibold text-muted">Business purpose</span>
+				<span class="text-muted">{site.legal.businessPurpose}</span>
+				<span class="font-semibold text-muted">VAT ID (UID)</span>
+				<span class="font-mono text-[13.5px] text-subtle"
+					>{site.legal.vatId}</span
+				>
+				<span class="font-semibold text-muted">Supervisory authority</span>
+				<span class="font-mono text-[13.5px] text-subtle"
+					>{site.legal.authority}</span
+				>
+				<span class="font-semibold text-muted">Applicable regulations</span>
+				<span class="text-muted"
+					>Gewerbeordnung (GewO), available at <span
+						class="font-mono text-[13px] text-subtle">ris.bka.gv.at</span
+					></span
+				>
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-3">
+			<h2
+				class="m-0 font-display text-[26px] font-bold tracking-tight"
+			>
+				Privacy
+			</h2>
+			<p class="m-0 text-[15px] leading-[1.7] text-muted text-pretty">
+				codesafe is built and operated in Austria. All cloud infrastructure runs
+				in the EU, and personal data is processed under the GDPR (DSGVO).
+				Repositories are cloned only for the duration of a scan and deleted
+				afterwards. Full privacy policy: <a
+					href="/privacy"
+					class="font-mono text-[13.5px] text-subtle">/privacy</a
+				>
+			</p>
+			<div
+				class="mt-1.5 inline-flex items-center gap-2 self-start rounded-full border border-[#DDE1DB] bg-white px-[13px] py-1.5 text-[12.5px] font-semibold text-muted"
+			>
+				<span class="h-[7px] w-[7px] rounded-full bg-green"></span>
+				Made in Austria · Hosted in the EU · GDPR-compliant
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-3">
+			<h2
+				class="m-0 font-display text-[26px] font-bold tracking-tight"
+			>
+				Liability for content
+			</h2>
+			<p class="m-0 text-[15px] leading-[1.7] text-muted text-pretty">
+				The contents of this website were created with care. No liability is
+				assumed for the correctness, completeness, or timeliness of the content.
+				External links are the responsibility of their respective operators.
+			</p>
+		</div>
+	</div>
+
+	<Footer slot="footer" variant="subpage" width="imprint" />
+</MarketingLayout>

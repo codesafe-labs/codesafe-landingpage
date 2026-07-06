@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+import '@fontsource/bricolage-grotesque/400.css';
+import '@fontsource/bricolage-grotesque/500.css';
+import '@fontsource/bricolage-grotesque/600.css';
+import '@fontsource/bricolage-grotesque/700.css';
+import '@fontsource/bricolage-grotesque/800.css';
+import '@fontsource/instrument-sans/400.css';
+import '@fontsource/instrument-sans/500.css';
+import '@fontsource/instrument-sans/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+
+import { site } from '../config/site';
+
+interface Props {
+	title?: string;
+	description?: string;
+	maxWidth?: 'landing' | 'changelog' | 'imprint' | 'faq';
+}
+
+const {
+	title = site.title,
+	description = 'Open-source security for AI-built apps. Scan, fix, and ship without fear.',
+	maxWidth = 'landing',
+} = Astro.props;
+
+const maxWidthClass = {
+	landing: 'max-w-landing',
+	changelog: 'max-w-changelog',
+	imprint: 'max-w-imprint',
+	faq: 'max-w-faq',
+}[maxWidth];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body class="min-h-screen bg-cream font-sans text-ink antialiased">
+		<slot name="nav" />
+		<main class={`mx-auto w-full ${maxWidthClass}`}>
+			<slot />
+		</main>
+		<slot name="footer" />
+	</body>
+</html>
