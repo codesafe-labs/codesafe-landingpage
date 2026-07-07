@@ -1,4 +1,6 @@
 ---
+import { site } from '../../config/site';
+
 interface Props {
 	variant?: 'landing' | 'subpage';
 	subpageLabel?: string;
@@ -12,61 +14,73 @@ const widthClass = width === 'imprint' ? 'max-w-imprint' : 'max-w-changelog';
 
 <nav
 	class:list={[
-		'mx-auto flex items-center justify-between gap-6 px-8 py-[22px]',
+		'mx-auto flex items-center justify-between gap-6 border-b border-dashed border-crt-border px-8 py-5',
 		variant === 'landing' ? 'max-w-landing' : widthClass,
 	]}
 >
-	<a href="/" class="flex items-center gap-2.5 no-underline text-ink">
-		<div
-			class="grid h-[26px] w-[26px] place-items-center rounded-[7px] bg-green font-mono text-sm font-semibold text-cream"
-		>
-			&gt;
-		</div>
-		<span class="font-mono text-base font-semibold tracking-tight"
-			>codesafe.sh</span
-		>
+	<a href="/" class="flex items-center no-underline">
+		<span class="text-[15px] font-semibold text-crt-cream">
+			<span class="text-crt-amber" aria-hidden="true">▮</span> CODESAFE.SH
+		</span>
 	</a>
 
 	{
 		variant === 'landing' ? (
 			<>
-				<div class="hidden items-center gap-7 text-[14.5px] font-medium text-muted md:flex">
-					<a href="#how" class="text-inherit no-underline hover:text-ink">
-						How it works
+				<div class="hidden items-center gap-6 text-[12.5px] text-crt-muted md:flex">
+					<a
+						href="#how"
+						class="text-inherit no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+					>
+						[F1] HOW
 					</a>
-					<a href="#checks" class="text-inherit no-underline hover:text-ink">
-						What it checks
+					<a
+						href="#checks"
+						class="text-inherit no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+					>
+						[F2] CHECKS
 					</a>
-					<a href="#pricing" class="text-inherit no-underline hover:text-ink">
-						Pricing
+					<a
+						href="#pricing"
+						class="text-inherit no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+					>
+						[F3] PRICING
 					</a>
-					<a href="#faq" class="text-inherit no-underline hover:text-ink">
-						FAQ
+					<a
+						href="#faq"
+						class="text-inherit no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+					>
+						[F4] FAQ
+					</a>
+					<a
+						href="/blog"
+						class="text-inherit no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+					>
+						[F5] CHANGELOG
 					</a>
 				</div>
-				<div class="flex items-center gap-3">
+				<div class="flex items-center gap-3 text-[12.5px]">
 					<a
-						href="https://github.com/codesafe-sh/codesafe"
-						class="hidden items-center gap-1.5 rounded-lg border border-[#DDE1DB] bg-white px-3 py-1.5 text-[13.5px] font-semibold text-ink no-underline sm:flex"
+						href={site.github}
+						class="hidden border border-crt-border-strong px-3 py-[7px] text-crt-muted no-underline transition-colors hover:border-crt-amber hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2 sm:inline-flex"
 					>
-						<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor">
-							<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-						</svg>
-						Star on GitHub
+						★ STAR ON GITHUB
 					</a>
-					<a
-						href="#waitlist"
-						class="rounded-lg bg-ink px-3.5 py-2 text-[13.5px] font-semibold text-cream no-underline"
-					>
-						Free scan
+					<a href="#waitlist" class="crt-btn-outline">
+						JOIN WAITLIST ▸
 					</a>
 				</div>
 			</>
 		) : (
-			<div class="flex items-center gap-6 text-sm font-semibold">
-				{subpageLabel && <span class="text-green">{subpageLabel}</span>}
-				<a href="/" class="text-muted no-underline hover:text-ink">
-					← Back to home
+			<div class="flex items-center gap-6 text-[12.5px] font-semibold">
+				{subpageLabel && (
+					<span class="crt-section-label">{subpageLabel}</span>
+				)}
+				<a
+					href="/"
+					class="text-crt-muted no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+				>
+					← BACK TO HOME
 				</a>
 			</div>
 		)

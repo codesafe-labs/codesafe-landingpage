@@ -2,63 +2,61 @@
 import { plansData, compareRows } from '../../../data/landing';
 ---
 
-<section id="pricing" class="border-t border-border bg-cream">
-	<div class="mx-auto max-w-landing px-8 py-[88px]">
-		<div class="flex flex-col items-center gap-3 text-center">
-			<span
-				class="font-mono text-[13px] font-semibold tracking-[0.06em] text-green"
-				>PRICING</span
-			>
+<section id="pricing" class="crt-divider">
+	<div class="mx-auto max-w-landing px-8 py-[72px]">
+		<div class="flex flex-col items-center gap-3.5 text-center">
+			<span class="crt-section-label">═══ PRICING ═══</span>
 			<h2
-				class="m-0 font-display text-[38px] font-bold leading-[1.1] tracking-tight"
+				class="m-0 text-[34px] font-bold leading-[1.15] text-crt-cream text-balance"
 			>
-				Free forever. Pay only for hosting.
+				FREE FOREVER. PAY ONLY FOR HOSTING.
 			</h2>
 		</div>
-		<div
-			class="mt-12 grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4"
-		>
+		<div class="mt-11 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
 			{
 				plansData.map((plan) => (
 					<div
 						class:list={[
-							'relative flex flex-col gap-4 rounded-2xl border bg-white px-6 py-7',
-							plan.featured ? 'border-green' : 'border-border',
+							'relative flex flex-col gap-4 px-[22px] py-[26px]',
+							plan.featured
+								? 'border border-crt-amber bg-crt-surface-accent'
+								: 'border border-crt-border bg-crt-surface',
 						]}
 					>
 						{plan.featured && (
-							<span class="absolute -top-3 left-6 rounded-full bg-green px-3 py-1 text-[11.5px] font-bold tracking-wide text-cream">
+							<span class="absolute -top-2.5 left-[22px] bg-crt-amber px-2.5 py-[3px] text-[10.5px] font-bold tracking-[0.08em] text-crt-bg">
 								MOST POPULAR
 							</span>
 						)}
 						<div class="flex flex-col gap-1.5">
-							<h3 class="m-0 text-base font-semibold">{plan.name}</h3>
+							<h3 class="m-0 text-[12.5px] font-bold tracking-[0.06em] text-crt-amber">
+								{plan.name}
+							</h3>
 							<div class="flex items-baseline gap-1">
-								<span class="font-display text-4xl font-bold tracking-tight">
+								<span class="text-[32px] font-bold text-crt-cream tabular-nums">
 									{plan.price}
 								</span>
-								<span class="text-[13.5px] font-medium text-subtle">
-									{plan.per}
-								</span>
+								<span class="text-xs text-crt-muted">{plan.per}</span>
 							</div>
-							<p class="m-0 text-[13.5px] leading-snug text-subtle">
+							<p class="m-0 text-xs leading-[1.6] text-crt-muted">
 								{plan.tagline}
 							</p>
 						</div>
-						<ul class="m-0 flex flex-1 list-none flex-col gap-2 p-0 text-[13.5px] text-[#33443B]">
+						<ul class="m-0 flex flex-1 list-none flex-col gap-2 p-0 text-xs text-crt-body">
 							{plan.features.map((feat) => (
-								<li class="flex items-baseline gap-2">
-									<span class="font-bold text-green">✓</span> {feat}
+								<li class="flex gap-2">
+									<span class="text-crt-green">✓</span>
+									<span>{feat}</span>
 								</li>
 							))}
 						</ul>
 						<a
 							href="#waitlist"
 							class:list={[
-								'rounded-[9px] border px-3.5 py-[11px] text-center text-sm font-semibold no-underline',
+								'border px-3.5 py-[11px] text-center text-xs font-bold tracking-[0.04em] no-underline transition-colors focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2',
 								plan.featured
-									? 'border-green bg-green text-cream'
-									: 'border-[#DDE1DB] bg-white text-ink',
+									? 'border-crt-amber bg-crt-amber text-crt-bg hover:bg-crt-amber-hover'
+									: 'border-crt-amber bg-transparent text-crt-amber hover:bg-crt-amber hover:text-crt-bg',
 							]}
 						>
 							{plan.cta}
@@ -69,37 +67,37 @@ import { plansData, compareRows } from '../../../data/landing';
 		</div>
 
 		<div
-			class="mt-14 flex flex-col gap-7 rounded-[18px] border border-green-border bg-green-pale p-10"
+			class="crt-card mt-12 flex flex-col gap-[26px] p-9"
 		>
 			<div class="flex flex-col items-center gap-2.5 text-center">
 				<h3
-					class="m-0 font-display text-[28px] font-bold tracking-tight text-ink"
+					class="m-0 text-[22px] font-bold tracking-[0.02em] text-crt-cream"
 				>
-					No artificial limitations.
+					NO ARTIFICIAL LIMITATIONS.
 				</h3>
 				<p
-					class="m-0 max-w-[480px] text-base leading-relaxed text-[#33443B] text-pretty"
+					class="m-0 max-w-[480px] text-[13px] leading-[1.7] text-crt-body text-pretty"
 				>
 					The self-hosted version has every feature. You only pay if you want us
 					to host it.
 				</p>
 			</div>
 			<div
-				class="mx-auto w-full max-w-[720px] overflow-hidden rounded-xl border border-[#DDE8DE] bg-white"
+				class="mx-auto w-full max-w-[720px] border border-dashed border-crt-border"
 			>
 				<div
-					class="grid grid-cols-[1.3fr_1fr_1fr] gap-4 border-b border-[#EBEEE8] bg-[#F6F8F4] px-6 py-3.5 text-[13px] font-bold text-muted"
+					class="grid grid-cols-[1.3fr_1fr_1fr] gap-4 border-b border-dashed border-crt-border px-[22px] py-[11px] text-[11px] font-bold tracking-[0.08em] text-crt-amber tabular-nums"
 				>
 					<span></span>
-					<span>Self-Hosted</span>
-					<span>Cloud</span>
+					<span>SELF-HOSTED</span>
+					<span>CLOUD</span>
 				</div>
 				{
 					compareRows.map((row) => (
-						<div class="grid grid-cols-[1.3fr_1fr_1fr] items-baseline gap-4 border-b border-[#F0F2EC] px-6 py-3 text-sm last:border-b-0">
-							<span class="font-semibold text-ink">{row.label}</span>
-							<span class="text-[#33443B]">{row.self}</span>
-							<span class="text-[#33443B]">{row.cloud}</span>
+						<div class="grid grid-cols-[1.3fr_1fr_1fr] items-baseline gap-4 border-b border-[#1E1810] px-[22px] py-2.5 text-xs last:border-b-0 tabular-nums">
+							<span class="text-crt-cream">{row.label}</span>
+							<span class="text-crt-body">{row.self}</span>
+							<span class="text-crt-body">{row.cloud}</span>
 						</div>
 					))
 				}

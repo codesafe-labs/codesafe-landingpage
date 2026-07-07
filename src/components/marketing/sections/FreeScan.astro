@@ -1,60 +1,49 @@
-<section class="border-t border-border bg-white">
+<section class="crt-divider">
 	<div
-		class="mx-auto grid max-w-landing items-center gap-16 px-8 py-[88px] lg:grid-cols-[1fr_0.9fr]"
+		class="mx-auto grid max-w-landing items-center gap-14 px-8 py-[72px] lg:grid-cols-[1fr_0.9fr]"
 	>
-		<div class="flex flex-col gap-4">
-			<span
-				class="font-mono text-[13px] font-semibold tracking-[0.06em] text-green"
-				>FREE SCAN</span
-			>
+		<div class="flex flex-col gap-[18px]">
+			<span class="crt-section-label">═══ FREE SCAN ═══</span>
 			<h2
-				class="m-0 font-display text-[38px] font-bold leading-[1.1] tracking-tight text-balance"
+				class="m-0 text-[34px] font-bold leading-[1.15] text-crt-cream text-balance"
 			>
-				Get your security score in 60 seconds
+				GET YOUR SECURITY SCORE IN 60 SECONDS
 			</h2>
-			<p class="m-0 text-[16.5px] leading-relaxed text-muted text-pretty">
+			<p class="m-0 text-[13.5px] leading-[1.8] text-crt-body text-pretty">
 				Run the free scan and find out where you stand before someone else does.
 				No credit card, no signup for the CLI. The score is yours to share or fix.
 			</p>
-			<div class="mt-2">
-				<a
-					href="#waitlist"
-					class="inline-flex items-center gap-2.5 rounded-[10px] bg-ink px-[18px] py-[13px] font-mono text-sm font-medium text-dark-text no-underline"
-				>
-					<span class="text-green-light">$</span> npx codesafe scan
+			<div class="mt-1">
+				<a href="#waitlist" class="crt-btn-primary text-[13.5px]">
+					JOIN WAITLIST ▸
 				</a>
 			</div>
 		</div>
 		<div class="flex justify-center">
 			<div
-				class="flex min-w-[320px] flex-col items-center gap-[18px] rounded-[18px] border border-border bg-cream p-9 shadow-[0_18px_48px_-30px_rgba(24,32,27,0.3)]"
+				class="crt-card flex min-w-[330px] flex-col items-center gap-[18px] px-10 py-[34px]"
 			>
+				<span class="text-[11.5px] tracking-[0.14em] text-crt-muted"
+					>── SECURITY SCORE ──</span
+				>
 				<span
-					class="text-[13px] font-semibold tracking-[0.04em] text-subtle"
-					>SECURITY SCORE</span
+					class="text-[76px] font-bold leading-none text-crt-green tabular-nums"
+					>A−</span
 				>
 				<div
-					class="grid h-[120px] w-[120px] place-items-center rounded-full border-[6px] border-green bg-white"
-				>
-					<span
-						class="font-display text-[52px] font-extrabold text-green"
-						>A−</span
-					>
-				</div>
-				<div
-					class="flex w-full flex-col gap-2 text-[13.5px] text-muted"
+					class="flex w-full flex-col gap-2 text-xs text-crt-body tabular-nums"
 				>
 					<div class="flex justify-between gap-6">
-						<span>Findings fixed</span>
-						<strong class="font-semibold">7 of 8</strong>
+						<span>FINDINGS FIXED</span>
+						<span class="text-crt-cream">7 OF 8</span>
 					</div>
 					<div class="flex justify-between gap-6">
-						<span>Last scan</span>
-						<strong class="font-semibold">on deploy · 2h ago</strong>
+						<span>LAST SCAN</span>
+						<span class="text-crt-cream">ON DEPLOY · 2H AGO</span>
 					</div>
 					<div class="flex justify-between gap-6">
-						<span>Score last week</span>
-						<strong class="font-semibold text-tag-rules-text">C</strong>
+						<span>SCORE LAST WEEK</span>
+						<span class="text-crt-red">C</span>
 					</div>
 				</div>
 			</div>

@@ -1,26 +1,42 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
+
+function isValidEmail(value: string) {
+	return value.length > 3 && value.includes('@') && value.includes('.');
+}
 
 export default function WaitlistForm() {
 	const [email, setEmail] = useState('');
-	const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+	const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
+		'idle',
+	);
 	const [errorMsg, setErrorMsg] = useState('');
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	async function handleSubmit(e: FormEvent) {
 		e.preventDefault();
-		setStatus('idle');
 		setErrorMsg('');
+
+		if (!isValidEmail(email.trim())) {
+			setStatus('error');
+			setErrorMsg('Enter a valid email address');
+			inputRef.current?.focus();
+			return;
+		}
+
+		setStatus('loading');
 
 		try {
 			const res = await fetch('/api/waitlist', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email }),
+				body: JSON.stringify({ email: email.trim() }),
 			});
 			const data = await res.json();
 
 			if (!res.ok) {
 				setStatus('error');
-				setErrorMsg(data.error ?? 'Something went wrong');
+				setErrorMsg(data.error ?? 'Something went wrong. Please try again.');
+				inputRef.current?.focus();
 				return;
 			}
 
@@ -28,39 +44,71 @@ export default function WaitlistForm() {
 		} catch {
 			setStatus('error');
 			setErrorMsg('Network error. Please try again.');
+			inputRef.current?.focus();
 		}
 	}
 
 	if (status === 'success') {
 		return (
-			<div className="mt-2 flex items-center gap-2.5 rounded-[10px] border border-green-border bg-green-pale px-5 py-[13px] text-[15px] font-semibold text-green-dark">
+			<div
+				role="status"
+				aria-live="polite"
+				className="mt-2 break-all border border-crt-green px-5 py-[13px] text-[13px] font-semibold text-crt-green"
+			>
 				✓ You're on the list. We'll be in touch.
 			</div>
 		);
 	}
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="mt-2 flex w-full max-w-[440px] gap-2.5"
-		>
-			<input
-				type="email"
-				required
-				value={email}
-				onChange={(e) => setEmail(e.target.value)}
-				placeholder="you@yourapp.com"
-				className="flex-1 rounded-[10px] border border-[#DDE1DB] bg-white px-4 py-[13px] font-sans text-[15px] text-ink outline-none focus:border-green"
-			/>
-			<button
-				type="submit"
-				className="cursor-pointer rounded-[10px] border-none bg-green px-5 py-[13px] font-sans text-[15px] font-semibold text-cream hover:bg-green-hover"
+		<div className="mt-2 w-full max-w-[460px]">
+			<form
+				onSubmit={handleSubmit}
+				className="flex flex-col gap-2 sm:flex-row sm:items-start"
+				noValidate
 			>
-				Join waitlist
-			</button>
-			{status === 'error' && (
-				<p className="absolute mt-16 text-sm text-red-600">{errorMsg}</p>
-			)}
-		</form>
+				<div className="flex min-w-0 flex-1 flex-col gap-1.5">
+					<label htmlFor="waitlist-email" className="sr-only">
+						Email address
+					</label>
+					<input
+						ref={inputRef}
+						id="waitlist-email"
+						name="email"
+						type="email"
+						inputMode="email"
+						autoComplete="email"
+						spellCheck={false}
+						required
+						value={email}
+						onChange={(e) => {
+							setEmail(e.target.value);
+							if (status === 'error') setStatus('idle');
+						}}
+						placeholder="you@yourapp.com…"
+						aria-invalid={status === 'error'}
+						aria-describedby={status === 'error' ? 'waitlist-error' : undefined}
+						className="crt-input w-full"
+					/>
+					{status === 'error' && (
+						<p
+							id="waitlist-error"
+							role="alert"
+							aria-live="polite"
+							className="m-0 text-xs text-crt-red"
+						>
+							{errorMsg}
+						</p>
+					)}
+				</div>
+				<button
+					type="submit"
+					disabled={status === 'loading'}
+					className="crt-btn-primary shrink-0 text-[13px] disabled:cursor-not-allowed disabled:opacity-70"
+				>
+					{status === 'loading' ? 'Joining…' : 'Join waitlist'}
+				</button>
+			</form>
+		</div>
 	);
 }

@@ -11,56 +11,71 @@ const { variant = 'landing', width = 'changelog' } = Astro.props;
 const widthClass = width === 'imprint' ? 'max-w-imprint' : 'max-w-changelog';
 ---
 
-<footer class="border-t border-border bg-white">
+<footer class="crt-divider">
 	<div
 		class:list={[
-			'mx-auto flex flex-wrap items-center justify-between gap-6 px-8 py-7',
+			'mx-auto flex flex-wrap items-center justify-between gap-6 px-8 py-[26px] text-[11.5px] text-crt-muted',
 			variant === 'landing' ? 'max-w-landing' : widthClass,
 		]}
 	>
 		{
 			variant === 'landing' ? (
-				<div class="flex items-center gap-2">
-					<div class="grid h-5 w-5 place-items-center rounded-md bg-green font-mono text-[11px] font-semibold text-cream">
-						&gt;
-					</div>
-					<span class="font-mono text-[13.5px] font-semibold">codesafe.sh</span>
-					<span class="ml-2 text-[12.5px] font-medium text-faint">
-						Made in Austria
+				<span class="font-semibold text-crt-cream">
+					<span class="text-crt-amber" aria-hidden="true">
+						▮
+					</span>{' '}
+					CODESAFE.SH{' '}
+					<span class="ml-2 font-normal text-crt-faint">
+						MADE IN AUSTRIA · HOSTED IN THE EU
 					</span>
-				</div>
+				</span>
 			) : (
-				<span class="font-mono text-[13.5px] font-semibold text-ink">
-					codesafe.sh
+				<span class="font-semibold text-crt-cream">
+					<span class="text-crt-amber" aria-hidden="true">
+						▮
+					</span>{' '}
+					CODESAFE.SH
 				</span>
 			)
 		}
-		<div class="flex flex-wrap gap-6 text-[13px] font-medium text-subtle">
+		<div class="flex flex-wrap gap-[22px]">
 			{
 				variant === 'landing' && (
 					<>
 						<a
 							href={site.github}
-							class="text-inherit no-underline hover:text-ink"
+							class="text-inherit uppercase no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
 						>
-							GitHub
+							GITHUB
 						</a>
-						<a href={site.docs} class="text-inherit no-underline hover:text-ink">
-							Docs
+						<a
+							href={site.docs}
+							class="text-inherit uppercase no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+						>
+							DOCS
 						</a>
-						<a href="#pricing" class="text-inherit no-underline hover:text-ink">
-							Pricing
+						<a
+							href="/blog"
+							class="text-inherit uppercase no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+						>
+							CHANGELOG
 						</a>
 					</>
 				)
 			}
-			<a href="/imprint" class="text-inherit no-underline hover:text-ink">
-				Imprint
+			<a
+				href="/imprint"
+				class="text-inherit uppercase no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+			>
+				IMPRINT
 			</a>
-			<a href="/privacy" class="text-inherit no-underline hover:text-ink">
-				Privacy
+			<a
+				href="/privacy"
+				class="text-inherit uppercase no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+			>
+				PRIVACY
 			</a>
-			<span>© 2026 codesafe</span>
+			<span>© 2026 CODESAFE</span>
 		</div>
 	</div>
 </footer>

@@ -7,92 +7,89 @@ import Footer from '../components/marketing/Footer.astro';
 import { site } from '../config/site';
 ---
 
-<MarketingLayout
-	title="Imprint · codesafe.sh"
-	maxWidth="imprint"
->
+<MarketingLayout title="Imprint · codesafe.sh">
 	<Nav slot="nav" variant="subpage" width="imprint" />
 
-	<div class="flex flex-col gap-12 px-8 pb-24 pt-12">
+	<div class="mx-auto max-w-imprint flex flex-col gap-12 px-8 pb-24 pt-12">
 		<div class="flex flex-col gap-3">
+			<span class="crt-section-label">═══ IMPRINT ═══</span>
 			<h1
-				class="m-0 font-display text-[42px] font-bold leading-[1.05] tracking-tight"
+				class="m-0 text-[42px] font-bold leading-[1.05] text-crt-cream text-balance"
 			>
 				Imprint / Impressum
 			</h1>
-			<p class="m-0 text-[15px] text-subtle">
+			<p class="m-0 text-[15px] text-crt-muted">
 				Information pursuant to §5 E-Commerce-Gesetz (ECG) and §25
 				Mediengesetz, Austria.
 			</p>
 		</div>
 
-		<div
-			class="flex flex-col gap-5 rounded-[14px] border border-border bg-white p-8"
-		>
+		<div class="crt-card flex flex-col gap-5 p-8">
 			<div
 				class="grid grid-cols-1 gap-3 text-[15px] leading-relaxed sm:grid-cols-[200px_1fr] sm:gap-x-6"
 			>
-				<span class="font-semibold text-muted">Media owner / operator</span>
-				<span class="font-mono text-[13.5px] text-subtle"
-					>{site.legal.operator}</span
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>Media owner / operator</span
 				>
-				<span class="font-semibold text-muted">Address</span>
-				<span class="font-mono text-[13.5px] text-subtle"
-					>{site.legal.address}</span
+				<span class="text-[13.5px] text-crt-muted">{site.legal.operator}</span>
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>Address</span
 				>
-				<span class="font-semibold text-muted">Email</span>
-				<span class="font-mono text-[13.5px] text-subtle"
-					>{site.legal.email}</span
+				<span class="text-[13.5px] text-crt-muted">{site.legal.address}</span>
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>Email</span
 				>
-				<span class="font-semibold text-muted">Business purpose</span>
-				<span class="text-muted">{site.legal.businessPurpose}</span>
-				<span class="font-semibold text-muted">VAT ID (UID)</span>
-				<span class="font-mono text-[13.5px] text-subtle"
-					>{site.legal.vatId}</span
+				<span class="text-[13.5px] text-crt-muted">{site.legal.email}</span>
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>Business purpose</span
 				>
-				<span class="font-semibold text-muted">Supervisory authority</span>
-				<span class="font-mono text-[13.5px] text-subtle"
-					>{site.legal.authority}</span
+				<span class="text-crt-body">{site.legal.businessPurpose}</span>
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>VAT ID (UID)</span
 				>
-				<span class="font-semibold text-muted">Applicable regulations</span>
-				<span class="text-muted"
-					>Gewerbeordnung (GewO), available at <span
-						class="font-mono text-[13px] text-subtle">ris.bka.gv.at</span
+				<span class="text-[13.5px] text-crt-muted">{site.legal.vatId}</span>
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>Supervisory authority</span
+				>
+				<span class="text-[13.5px] text-crt-muted">{site.legal.authority}</span>
+				<span class="font-semibold uppercase tracking-wide text-crt-muted"
+					>Applicable regulations</span
+				>
+				<span class="text-crt-body"
+					>Gewerbeordnung (GewO), available at <span class="text-[13px] text-crt-muted"
+						>ris.bka.gv.at</span
 					></span
 				>
 			</div>
 		</div>
 
 		<div class="flex flex-col gap-3">
-			<h2
-				class="m-0 font-display text-[26px] font-bold tracking-tight"
-			>
+			<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 				Privacy
 			</h2>
-			<p class="m-0 text-[15px] leading-[1.7] text-muted text-pretty">
+			<p class="m-0 text-[15px] leading-[1.7] text-crt-body text-pretty">
 				codesafe is built and operated in Austria. All cloud infrastructure runs
 				in the EU, and personal data is processed under the GDPR (DSGVO).
 				Repositories are cloned only for the duration of a scan and deleted
 				afterwards. Full privacy policy: <a
 					href="/privacy"
-					class="font-mono text-[13.5px] text-subtle">/privacy</a
+					class="text-crt-amber no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+					>/privacy</a
 				>
 			</p>
 			<div
-				class="mt-1.5 inline-flex items-center gap-2 self-start rounded-full border border-[#DDE1DB] bg-white px-[13px] py-1.5 text-[12.5px] font-semibold text-muted"
+				class="mt-1.5 inline-flex items-center gap-2 self-start border border-crt-border-strong px-[13px] py-1.5 text-[12.5px] font-semibold text-crt-muted"
 			>
-				<span class="h-[7px] w-[7px] rounded-full bg-green"></span>
+				<span class="h-[7px] w-[7px] rounded-full bg-crt-green"></span>
 				Made in Austria · Hosted in the EU · GDPR-compliant
 			</div>
 		</div>
 
 		<div class="flex flex-col gap-3">
-			<h2
-				class="m-0 font-display text-[26px] font-bold tracking-tight"
-			>
+			<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 				Liability for content
 			</h2>
-			<p class="m-0 text-[15px] leading-[1.7] text-muted text-pretty">
+			<p class="m-0 text-[15px] leading-[1.7] text-crt-body text-pretty">
 				The contents of this website were created with care. No liability is
 				assumed for the correctness, completeness, or timeliness of the content.
 				External links are the responsibility of their respective operators.

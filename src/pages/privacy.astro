@@ -7,24 +7,25 @@ import Footer from '../components/marketing/Footer.astro';
 import { site } from '../config/site';
 ---
 
-<MarketingLayout title="Privacy · codesafe.sh" maxWidth="imprint">
+<MarketingLayout title="Privacy · codesafe.sh">
 	<Nav slot="nav" variant="subpage" width="imprint" />
 
-	<div class="flex flex-col gap-12 px-8 pb-24 pt-12">
+	<div class="mx-auto max-w-imprint flex flex-col gap-12 px-8 pb-24 pt-12">
 		<div class="flex flex-col gap-3">
+			<span class="crt-section-label">═══ PRIVACY ═══</span>
 			<h1
-				class="m-0 font-display text-[42px] font-bold leading-[1.05] tracking-tight"
+				class="m-0 text-[42px] font-bold leading-[1.05] text-crt-cream text-balance"
 			>
 				Privacy Policy
 			</h1>
-			<p class="m-0 text-[15px] text-subtle">
+			<p class="m-0 text-[15px] text-crt-muted">
 				How codesafe.sh handles your personal data under the GDPR (DSGVO).
 			</p>
 		</div>
 
-		<div class="flex flex-col gap-8 text-[15px] leading-[1.7] text-muted">
+		<div class="flex flex-col gap-8 text-[15px] leading-[1.7] text-crt-body">
 			<section class="flex flex-col gap-3">
-				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+				<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 					What we collect
 				</h2>
 				<p class="m-0 text-pretty">
@@ -35,7 +36,7 @@ import { site } from '../config/site';
 			</section>
 
 			<section class="flex flex-col gap-3">
-				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+				<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 					Where data is stored
 				</h2>
 				<p class="m-0 text-pretty">
@@ -46,7 +47,7 @@ import { site } from '../config/site';
 			</section>
 
 			<section class="flex flex-col gap-3">
-				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+				<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 					Purpose and retention
 				</h2>
 				<p class="m-0 text-pretty">
@@ -57,20 +58,21 @@ import { site } from '../config/site';
 			</section>
 
 			<section class="flex flex-col gap-3">
-				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+				<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 					Your rights
 				</h2>
 				<p class="m-0 text-pretty">
 					Under the GDPR you have the right to access, rectify, or delete your
 					personal data. Contact us at <a
 						href={`mailto:${site.legal.email}`}
-						class="text-green-dark">{site.legal.email}</a
+						class="text-crt-amber no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
+						>{site.legal.email}</a
 					> to exercise these rights.
 				</p>
 			</section>
 
 			<section class="flex flex-col gap-3">
-				<h2 class="m-0 font-display text-[26px] font-bold tracking-tight text-ink">
+				<h2 class="m-0 text-[26px] font-bold text-crt-cream">
 					Product note
 				</h2>
 				<p class="m-0 text-pretty">
@@ -81,7 +83,9 @@ import { site } from '../config/site';
 			</section>
 
 			<p class="m-0">
-				<a href="/imprint" class="font-semibold text-green-dark no-underline"
+				<a
+					href="/imprint"
+					class="font-semibold text-crt-amber no-underline transition-colors hover:text-crt-cream focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
 					>← Back to Imprint</a
 				>
 			</p>

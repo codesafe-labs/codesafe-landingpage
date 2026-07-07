@@ -1,48 +1,29 @@
 @import 'tailwindcss';
 
 @theme {
-	--color-cream: #fafaf7;
-	--color-ink: #18201b;
-	--color-muted: #4c5751;
-	--color-subtle: #78827b;
-	--color-faint: #9aa39c;
-	--color-border: #e7eae4;
+	--color-crt-bg: #0e0b07;
+	--color-crt-bg-alt: #100d08;
+	--color-crt-surface: #0a0805;
+	--color-crt-surface-accent: #171105;
+	--color-crt-amber: #f5a623;
+	--color-crt-amber-hover: #ffbe4a;
+	--color-crt-cream: #f5e9ce;
+	--color-crt-body: #b3a180;
+	--color-crt-muted: #8f7f63;
+	--color-crt-faint: #6b5f48;
+	--color-crt-border: #2e2618;
+	--color-crt-border-strong: #4a3e28;
+	--color-crt-green: #9fbf6b;
+	--color-crt-red: #e0705a;
+	--color-crt-yellow: #d9b45b;
+	--color-crt-diff-bg: #131a0c;
 
-	--color-green: #10805a;
-	--color-green-dark: #10664a;
-	--color-green-hover: #0c6b4b;
-	--color-green-light: #6fbf9a;
-	--color-green-pale: #eef6f0;
-	--color-green-border: #cfe4d8;
-
-	--color-terminal-bg: #101714;
-	--color-terminal-border: #223028;
-	--color-terminal-bar: #1c2620;
-
-	--color-dark-bg: #14201a;
-	--color-dark-card: #182620;
-	--color-dark-border: #29382f;
-	--color-dark-text: #e8efe9;
-	--color-dark-muted: #a9b8ae;
-
-	--color-tag-rules-bg: #fdf3ec;
-	--color-tag-rules-border: #f0d9c8;
-	--color-tag-rules-text: #b4552d;
-	--color-tag-cloud-bg: #eef2fa;
-	--color-tag-cloud-border: #d3def0;
-	--color-tag-cloud-text: #2a5fb8;
-	--color-tag-fix-bg: #f6f8f4;
-	--color-tag-fix-border: #e7eae4;
-	--color-tag-fix-text: #4c5751;
-
-	--font-display: 'Bricolage Grotesque', Helvetica, sans-serif;
-	--font-sans: 'Instrument Sans', Helvetica, sans-serif;
 	--font-mono: 'IBM Plex Mono', monospace;
 
-	--max-width-landing: 1120px;
+	--max-width-landing: 1160px;
 	--max-width-changelog: 880px;
 	--max-width-imprint: 800px;
-	--max-width-faq: 760px;
+	--max-width-faq: 780px;
 }
 
 @keyframes cs-blink {
@@ -67,6 +48,10 @@
 	}
 }
 
+html {
+	color-scheme: dark;
+}
+
 html,
 body {
 	margin: 0;
@@ -74,10 +59,182 @@ body {
 }
 
 body {
-	font-family: var(--font-sans);
-	color: var(--color-ink);
-	background: var(--color-cream);
+	font-family: var(--font-mono);
+	color: var(--color-crt-body);
+	background-color: var(--color-crt-bg);
 	-webkit-font-smoothing: antialiased;
+}
+
+#how,
+#checks,
+#pricing,
+#faq,
+#waitlist,
+#pr,
+#opensource {
+	scroll-margin-top: 5rem;
+}
+
+/* Skip link */
+.skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+	z-index: 100;
+	padding: 0.75rem 1rem;
+	background: var(--color-crt-surface);
+	color: var(--color-crt-amber);
+	border: 2px solid var(--color-crt-amber);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.skip-link:focus-visible {
+	left: 1rem;
+	top: 1rem;
+	outline: 2px solid var(--color-crt-amber);
+	outline-offset: 2px;
+}
+
+/* CRT utilities */
+.crt-scanlines {
+	background: repeating-linear-gradient(
+		0deg,
+		var(--color-crt-bg) 0px,
+		var(--color-crt-bg) 3px,
+		var(--color-crt-bg-alt) 3px,
+		var(--color-crt-bg-alt) 4px
+	);
+}
+
+.crt-section-label {
+	font-size: 11.5px;
+	color: var(--color-crt-amber);
+	letter-spacing: 0.14em;
+}
+
+.crt-card {
+	border: 1px solid var(--color-crt-border-strong);
+	background: var(--color-crt-surface);
+}
+
+.crt-divider {
+	border-top: 1px dashed var(--color-crt-border);
+}
+
+/* Shared interactive patterns */
+.crt-btn-primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--color-crt-amber);
+	color: var(--color-crt-bg);
+	border: none;
+	padding: 0.875rem 1.375rem;
+	font-family: var(--font-mono);
+	font-size: 0.875rem;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: background-color 0.15s ease;
+}
+
+.crt-btn-primary:hover {
+	background: var(--color-crt-amber-hover);
+}
+
+.crt-btn-primary:focus-visible {
+	outline: 2px solid var(--color-crt-amber);
+	outline-offset: 2px;
+}
+
+.crt-btn-outline {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	color: var(--color-crt-amber);
+	border: 1px solid var(--color-crt-amber);
+	padding: 0.5rem 0.8125rem;
+	font-family: var(--font-mono);
+	font-size: 0.78125rem;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.crt-btn-outline:hover {
+	background: var(--color-crt-amber);
+	color: var(--color-crt-bg);
+}
+
+.crt-btn-outline:focus-visible {
+	outline: 2px solid var(--color-crt-amber);
+	outline-offset: 2px;
+}
+
+.crt-btn-ghost {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	color: var(--color-crt-body);
+	border: 1px solid var(--color-crt-border-strong);
+	padding: 0.875rem 1.25rem;
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	text-decoration: none;
+	touch-action: manipulation;
+	transition:
+		border-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.crt-btn-ghost:hover {
+	border-color: var(--color-crt-amber);
+	color: var(--color-crt-amber);
+}
+
+.crt-btn-ghost:focus-visible {
+	outline: 2px solid var(--color-crt-amber);
+	outline-offset: 2px;
+}
+
+.crt-input {
+	flex: 1;
+	min-width: 0;
+	border: 1px solid var(--color-crt-border-strong);
+	background-color: var(--color-crt-surface);
+	color: var(--color-crt-cream);
+	padding: 0.8125rem 1rem;
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	touch-action: manipulation;
+	transition: border-color 0.15s ease;
+}
+
+.crt-input:focus-visible {
+	outline: 2px solid var(--color-crt-amber);
+	outline-offset: 2px;
+	border-color: var(--color-crt-amber);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
 }
 
 .animate-cs-rise {
@@ -90,4 +247,18 @@ body {
 
 .animate-cs-blink {
 	animation: cs-blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animate-cs-rise,
+	.animate-cs-rise-delayed {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+
+	.animate-cs-blink {
+		animation: none;
+		opacity: 1;
+	}
 }
