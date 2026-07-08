@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 import { loadEnv } from './load-env.mjs';
+import { getPgConnectionConfig } from './pg-config.mjs';
 
 loadEnv();
 
@@ -17,7 +18,7 @@ if (!connectionString) {
 	process.exit(1);
 }
 
-const client = new pg.Client({ connectionString });
+const client = new pg.Client(getPgConnectionConfig(connectionString));
 
 async function migrate() {
 	await client.connect();

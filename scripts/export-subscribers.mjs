@@ -1,5 +1,6 @@
 import pg from 'pg';
 import { loadEnv } from './load-env.mjs';
+import { getPgConnectionConfig } from './pg-config.mjs';
 
 loadEnv();
 
@@ -11,7 +12,7 @@ if (!connectionString) {
 }
 
 const type = process.argv[2] ?? 'waitlist';
-const client = new pg.Client({ connectionString });
+const client = new pg.Client(getPgConnectionConfig(connectionString));
 
 async function exportSubscribers() {
 	await client.connect();

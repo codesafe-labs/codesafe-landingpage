@@ -1,7 +1,8 @@
 import pg from 'pg';
+import { getPgConnectionConfig } from './pg-config';
 
 const pool = new pg.Pool({
-	connectionString: process.env.DATABASE_URL,
+	...getPgConnectionConfig(process.env.DATABASE_URL),
 	max: Number(process.env.DB_POOL_MAX ?? 10),
 	idleTimeoutMillis: 30_000,
 	connectionTimeoutMillis: 5_000,
