@@ -248,8 +248,8 @@ export const site = {
   name: 'codesafe.sh',
   title: 'codesafe.sh · Ship without fear',
   url: 'https://codesafe.sh',
-  github: 'https://github.com/codesafe-sh/codesafe',  // update when known
-  docs: 'https://docs.codesafe.sh',                     // update when known
+  github: 'https://github.com/codesafe-labs/codesafe-sh',  // update when known
+  docs: 'https://github.com/codesafe-labs/codesafe-sh',                     // update when known
   legal: {
     operator: '[Your full name / company name]',
     address: '[Street and number], [ZIP] [City], Austria',
