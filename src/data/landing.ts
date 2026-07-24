@@ -3,7 +3,7 @@ export type TerminalSegment = { t: string; c: string };
 export const terminalLines: TerminalSegment[][] = [
 	[
 		{ t: '$ ', c: '#6B5F48' },
-		{ t: 'npx codesafe scan .', c: '#F5E9CE' },
+		{ t: 'npx codesafe-sh scan .', c: '#F5E9CE' },
 	],
 	[{ t: '▸ SCANNING 214 FILES…', c: '#8F7F63' }],
 	[{ t: '', c: '#8F7F63' }],
@@ -33,11 +33,11 @@ export const terminalLines: TerminalSegment[][] = [
 	[{ t: '', c: '#8F7F63' }],
 	[
 		{ t: '$ ', c: '#6B5F48' },
-		{ t: 'npx codesafe fix --all', c: '#F5E9CE' },
+		{ t: 'npx codesafe-sh fix --all', c: '#F5E9CE' },
 	],
 	[{ t: '▸ GENERATING MINIMAL DIFFS…', c: '#8F7F63' }],
 	[{ t: '✓ FIXES RE-SCANNED, 0 FINDINGS REMAIN', c: '#9FBF6B' }],
-	[{ t: '✓ BRANCH codesafe/fix-3-findings PUSHED', c: '#9FBF6B' }],
+	[{ t: '✓ BRANCH codesafe-sh/fix-3-findings PUSHED', c: '#9FBF6B' }],
 	[
 		{ t: '✓ PR #12 OPENED ', c: '#9FBF6B' },
 		{ t: '→ github.com/you/app/pull/12', c: '#8F7F63' },
@@ -155,7 +155,7 @@ export const compareRows = [
 export const faqData = [
 	{
 		q: 'WILL THE FIX PR BREAK MY APP?',
-		a: 'Fixes are minimal diffs: codesafe changes the fewest lines possible and never refactors around the fix. Every diff is re-scanned before the PR opens, and you review it like any other pull request. Nothing merges without you.',
+		a: 'Fixes are minimal diffs: codesafe-sh changes the fewest lines possible and never refactors around the fix. Every diff is re-scanned before the PR opens, and you review it like any other pull request. Nothing merges without you.',
 	},
 	{
 		q: 'DO YOU STORE MY CODE?',
@@ -163,7 +163,7 @@ export const faqData = [
 	},
 	{
 		q: 'I KNOW NOTHING ABOUT SECURITY. IS THIS FOR ME?',
-		a: 'Especially for you. Every finding and every fix comes with a plain-English explanation of what could have happened and what the change does. If you can merge a PR, you can use codesafe.',
+		a: 'Especially for you. Every finding and every fix comes with a plain-English explanation of what could have happened and what the change does. If you can merge a PR, you can use codesafe-sh.',
 	},
 	{
 		q: 'WHICH STACKS DOES IT SUPPORT?',
@@ -171,6 +171,6 @@ export const faqData = [
 	},
 	{
 		q: 'HOW IS THIS DIFFERENT FROM SNYK OR A PENTEST REPORT?',
-		a: "Those tell you what's wrong; codesafe ships the fix. The output is a merged pull request, not a PDF. And because the core is open source with zero runtime dependencies, you can verify exactly what it does.",
+		a: "Those tell you what's wrong; codesafe-sh ships the fix. The output is a merged pull request, not a PDF. And because the core is open source with zero runtime dependencies, you can verify exactly what it does.",
 	},
 ];

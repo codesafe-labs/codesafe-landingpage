@@ -66,8 +66,8 @@ export default function TerminalAnimation({ lines }: Props) {
 				className="cursor-pointer overflow-hidden border border-crt-border-strong bg-crt-surface shadow-[0_0_60px_rgba(245,166,35,0.07)_inset,0_24px_60px_-30px_rgba(0,0,0,0.8)] touch-action-manipulation focus-visible:outline-2 focus-visible:outline-crt-amber focus-visible:outline-offset-2"
 			>
 				<div className="flex items-center justify-between border-b border-dashed border-crt-border px-[18px] py-[11px] text-[11px] text-crt-muted">
-					<span>SECURITY AUDIT — my-vibe-app</span>
-					<span>codesafe v0.4.0</span>
+					<span>SECURITY AUDIT my-vibe-app</span>
+					<span>codesafe-sh</span>
 				</div>
 				<div className="flex min-h-[340px] flex-col px-5 pb-[22px] pt-[18px] text-[12.5px] leading-[1.95]">
 					{visibleLines.map((line, i) => (
